@@ -93,3 +93,41 @@ http://your-ip/frontend/pages/login-signin/html/login.php
 ```bash
 docker compose down
 ```
+
+## Screenshots
+
+### Login Page
+
+![Login Page](./docs/images/login.png)
+
+### Register Page
+
+![Register Page](./docs/images/register.jpeg)
+
+### Dashboard Page
+
+![Dashboard Page](./docs/images/dashboard.png)
+
+### Invitation
+
+![Album Details](./docs/images/invite.png)
+
+### Album
+
+![Album Details](./docs/images/album.png)
+
+### Album View
+
+![Album Details](./docs/images/album-view.png)
+
+### Album Details
+
+![Album Details](./docs/images/album-view-detail.png)
+
+### Create Album
+
+![Album Details](./docs/images/create-album.png)
+
+### Create View
+
+![Album Details](./docs/images/create-album-view.jpeg)
