@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memora - Paramètres</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="../../../assets/icons/faviconMemora.svg"
+    />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../css/settings.css" />
+  </head>
+  <body>
+    <div class="settings-layout-container">
+      <div class="settings-sidebar">
+        <h2>Paramètres</h2>
+        <a href="../../profile/html/profile-user.html" class="btn-back-profile">
+          <span class="chevron-left-icon"></span> Revenir à votre profil
+        </a>
+        <button type="button" class="btn-logout-sidebar">Déconnexion</button>
+      </div>
+
+      <div class="settings-main-content">
+        <div
+          class="settings-banner-preview"
+          style="background-image: url(&quot;../../../assets/IMG/&quot;)"
+        >
+          <button type="button" class="btn-edit-banner">
+            <span class="pencil-icon"></span> Modifier la bannière
+          </button>
+        </div>
+
+        <form id="form-user-settings" novalidate>
+          <div class="settings-form-row">
+            <div class="settings-avatar-block">
+              <label>Photo de profil</label>
+              <div class="settings-avatar-circle"></div>
+              <button type="button" class="btn-change-avatar">Changer</button>
+            </div>
+
+            <div class="settings-inputs-block">
+              <p class="settings-section-title">Informations personnelles</p>
+
+              <div class="input-group">
+                <label for="settings-username">Pseudonyme</label>
+                <input
+                  type="text"
+                  id="settings-username"
+                  placeholder="Écrivez..."
+                  value="Lucas Martin"
+                />
+              </div>
+
+              <div class="input-group">
+                <label for="settings-bio">Bio</label>
+                <textarea
+                  id="settings-bio"
+                  rows="4"
+                  placeholder="Lorem ipsum dolor sit amet..."
+                ></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-footer-actions">
+            <button type="submit" class="btn-save-settings">Enregistrer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="../../login-signin/js/validation.js"></script>
+    <script>
+      // Micro-logique de sauvegarde factice pour la démo
+      document
+        .getElementById("form-user-settings")
+        .addEventListener("submit", (e) => {
+          e.preventDefault();
+          alert("Modifications enregistrées avec succès ! (Simulation)");
+        });
+    </script>
+  </body>
+</html>

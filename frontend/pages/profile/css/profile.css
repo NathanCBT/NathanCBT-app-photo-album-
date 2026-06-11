@@ -1,0 +1,241 @@
+.profile-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: var(--bg-black);
+  min-height: 100vh;
+}
+
+.profile-banner {
+  height: 280px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  width: 100%;
+}
+
+.back-arrow-btn {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.back-arrow-btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.arrow-left-icon {
+  width: 10px;
+  height: 10px;
+  border-left: 2px solid var(--white);
+  border-bottom: 2px solid var(--white);
+  transform: rotate(45deg);
+  margin-left: 3px;
+}
+
+.profile-content-wrapper {
+  padding: 0 40px 60px 40px;
+  margin-top: -50px;
+}
+
+.profile-header-main {
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 30px;
+}
+
+.profile-avatar-large {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background-color: #d9d9d9;
+  border: 4px solid var(--bg-black);
+  flex-shrink: 0;
+}
+
+.profile-identity-box {
+  flex: 1;
+  padding-bottom: 10px;
+}
+
+.profile-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.profile-name-row h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.profile-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-handle {
+  color: var(--text-light-gray);
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.profile-bio {
+  color: var(--white);
+  font-size: 15px;
+  margin-top: 14px;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border: 1px solid rgba(186, 186, 186, 0.3);
+  color: var(--white);
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: var(--text-light-gray);
+}
+
+.btn-more-options {
+  background: transparent;
+  border: none;
+  color: var(--text-light-gray);
+  cursor: pointer;
+  font-size: 18px;
+  padding: 8px;
+}
+
+.btn-follow {
+  background-color: var(--brand-pink);
+  color: var(--white);
+  border: none;
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-follow:hover {
+  opacity: 0.9;
+}
+
+.btn-follow.following {
+  background-color: transparent;
+  border: 1px solid var(--brand-pink);
+  color: var(--brand-pink);
+}
+
+.profile-stats-row {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 25px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.stat-item strong {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.stat-item span {
+  font-size: 13px;
+  color: var(--text-light-gray);
+  margin-top: 2px;
+}
+
+.profile-divider {
+  border: none;
+  border-top: 1px solid #2a2a2a;
+  margin-bottom: 25px;
+}
+
+.albums-section-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.albums-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+.album-card-simulated {
+  background-color: #121212;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #222;
+  aspect-ratio: 1 / 1;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.album-card-simulated:hover {
+  transform: scale(1.02);
+}
+
+.edit-icon-small {
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--white);
+  transform: rotate(45deg);
+  position: relative;
+  display: inline-block;
+}
+
+@media (max-width: 768px) {
+  .profile-header-main {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .profile-name-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .profile-content-wrapper {
+    padding: 20px;
+  }
+  .profile-stats-row {
+    justify-content: center;
+    gap: 20px;
+  }
+}
