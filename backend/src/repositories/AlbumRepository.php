@@ -74,7 +74,8 @@ class AlbumRepository {
             WHERE id = ?
         ");
         $stmt->execute([$albumId]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ?: null; 
     }
 
     public function getContributorRights(int $albumId, int $userId): ?string {

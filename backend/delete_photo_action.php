@@ -33,10 +33,12 @@ try {
         exit;
     }
 
+    $relativeFilePath = $photo['file_path'];
     $success = $albumRepository->deletePhoto($photoId, $userId);
     
     if ($success) {
-        $absolutePath = $_SERVER['DOCUMENT_ROOT'] . '/' . $photo['file_path'];
+        // cleaning up the physical file on the server
+        $absolutePath = __DIR__ . '/../' . $relativeFilePath;
         if (file_exists($absolutePath)) {
             unlink($absolutePath);
         }
