@@ -182,4 +182,100 @@ class AlbumRepository {
         ");
         return $stmt->execute([$photoId, $userId]);
     }
+
+    public function updateAlbum(int $albumId, string $title, string $description, ?string $coverUrl, string $visibility): bool {
+        if ($coverUrl !== null) {
+            $stmt = $this->db->prepare("
+                UPDATE albums 
+                SET title = ?, description = ?, cover_url = ?, visibility = ? 
+                WHERE id = ?
+            ");
+            return $stmt->execute([$title, $description, $coverUrl, $visibility, $albumId]);
+        } else {
+            $stmt = $this->db->prepare("
+                UPDATE albums 
+                SET title = ?, description = ?, visibility = ? 
+                WHERE id = ?
+            ");
+            return $stmt->execute([$title, $description, $visibility, $albumId]);
+        }
+    }
+
+    public function removeAllContributors(int $albumId): bool {
+        $stmt = $this->db->prepare("
+            DELETE FROM album_contributors 
+            WHERE album_id = ?
+        ");
+        return $stmt->execute([$albumId]);
+    }
+
+    public function syncContributors(int $albumId, array $userIds, array $rights): bool {
+        $this->removeAllContributors($albumId);
+
+        if (empty($userIds)) {
+            return true;
+        }
+
+        $sql = "INSERT INTO album_contributors (album_id, user_id, rights) VALUES ";
+        $placeholders = [];
+        $params = [];
+
+        foreach ($userIds as $index => $uId) {
+            $right = $rights[$index] ?? 'Peut voir';
+            $placeholders[] = "(?, ?, ?)";
+            $params[] = $albumId;
+            $params[] = (int)$uId;
+            $params[] = $right;
+        }
+
+        $sql .= implode(', ', $placeholders);
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute($params);
+    }
+
+    public function addTagToAlbum(int $albumId, int $tagId): bool {
+        $stmt = $this->db->prepare("
+            INSERT INTO album_tags (album_id, tag_id) 
+            VALUES (?, ?)
+        ");
+        return $stmt->execute([$albumId, $tagId]);
+    }
+    
+    public function getAlbumTags(int $albumId): array {
+        $stmt = $this->db->prepare("
+            SELECT t.id, t.name 
+            FROM tags t
+            JOIN album_tags at ON t.id = at.tag_id
+            WHERE at.album_id = ?
+            ORDER BY t.name ASC
+        ");
+        $stmt->execute([$albumId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function syncAlbumTags(int $albumId, array $tagIds): bool {
+        $stmt = $this->db->prepare("
+        DELETE FROM album_tags 
+        WHERE album_id = ?
+        ");
+        $stmt->execute([$albumId]);
+
+        if (empty($tagIds)) {
+            return true;
+        }
+
+        $sql = "INSERT INTO album_tags (album_id, tag_id) VALUES ";
+        $placeholders = [];
+        $params = [];
+
+        foreach ($tagIds as $tagId) {
+            $placeholders[] = "(?, ?)";
+            $params[] = $albumId;
+            $params[] = (int)$tagId;
+        }
+
+        $sql .= implode(', ', $placeholders);
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute($params);
+    }
 }

@@ -22,9 +22,12 @@ class AlbumController {
         $description = trim($_POST['description'] ?? '');
         $visibility = $_POST['visibility'] ?? 'privé';
 
-        // retrieving guest lists sent via invitations.js
+        // Récupération des invités
         $invitedIds = $_POST['invited_users_ids'] ?? [];
         $invitedRights = $_POST['invited_users_rights'] ?? [];
+
+        // RÉCUPÉRATION DES TAGS DE L'ALBUM
+        $albumTags = $_POST['album_tags'] ?? [];
 
         if (empty($title)) {
             $_SESSION['error'] = "Le nom de l'album est obligatoire.";
@@ -59,11 +62,18 @@ class AlbumController {
 
             $albumId = $this->albumRepository->createAlbum($title, $description, $coverRelativeUrl, $visibility, $userId);
 
+            // album tag recording
+            if (!empty($albumTags) && is_array($albumTags)) {
+                foreach ($albumTags as $tagId) {
+                    $this->albumRepository->addTagToAlbum((int)$albumId, (int)$tagId);
+                }
+            }
+
             // managing collaborators if the album is restricted
             if ($visibility === 'restreint' && !empty($invitedIds)) {
                 foreach ($invitedIds as $index => $invitedUserId) {
                     $right = $invitedRights[$index] ?? 'Peut voir';
-
+                    
                     // avoids injections on the enum
                     if (!in_array($right, ['Peut voir', 'Peut commenter', 'Peut modifier'])) {
                         $right = 'Peut voir';
@@ -84,7 +94,6 @@ class AlbumController {
 
                 foreach ($_FILES['photos']['name'] as $index => $originalName) {
                     if ($_FILES['photos']['error'][$index] === UPLOAD_ERR_OK) {
-                        
                         $fileTmpPath = $_FILES['photos']['tmp_name'][$index];
                         $fileSize = $_FILES['photos']['size'][$index];
                         $fileExtension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));

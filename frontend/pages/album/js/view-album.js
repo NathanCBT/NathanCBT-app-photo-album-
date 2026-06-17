@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let localPhotosArray = [];
   let currentPhotoIndex = 0;
+  let activePhotoIdForComments = null;
 
   const dbTags = [
     { id: 1, name: "Famille" },
@@ -66,9 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!photosGrid) return;
 
-    while (photosGrid.firstChild) {
-      photosGrid.removeChild(photosGrid.firstChild);
-    }
+    photosGrid.innerHTML = "";
 
     if (localPhotosArray.length === 0) {
       const noPhoto = document.createElement("p");
@@ -131,6 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!photo) return;
 
     modalImg.src = `/${photo.file_path}`;
+    modalImg.setAttribute("data-photo-id", photo.id);
 
     if (photo.shot_at) {
       const dateOptions = { day: "numeric", month: "long", year: "numeric" };
@@ -145,9 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modalDesc.textContent =
       photo.description || "Aucune description pour cette photo.";
 
-    while (modalTagsContainer.firstChild) {
-      modalTagsContainer.removeChild(modalTagsContainer.firstChild);
-    }
+    modalTagsContainer.innerHTML = "";
 
     if (photo.tags && photo.tags.length > 0) {
       photo.tags.forEach((tag) => {
@@ -242,14 +240,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const commentsList = document.getElementById("modal-comments-list");
     if (!commentsList) return;
 
-    while (commentsList.firstChild) {
-      commentsList.removeChild(commentsList.firstChild);
-    }
+    activePhotoIdForComments = photoId;
+
+    commentsList.innerHTML = "";
 
     fetch(`/backend/handle_comments_action.php?photo_id=${photoId}`)
       .then((res) => res.json())
       .then((comments) => {
-        if (comments.length === 0) {
+        // if the user has changed their photo in the meantime the result is ignored
+        if (activePhotoIdForComments !== photoId) return;
+
+        // clear again to ensure that another fetch hasn't written at the same time - avoid the comment duplication bug
+        commentsList.innerHTML = "";
+
+        if (!comments || comments.length === 0) {
           const placeholder = document.createElement("p");
           placeholder.style.opacity = "0.5";
           placeholder.style.fontStyle = "italic";
@@ -297,12 +301,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const inputNewComment = document.getElementById("input-new-comment");
 
   if (btnSubmitComment && inputNewComment) {
-    const submitCommentAction = () => {
+    const submitCommentAction = (e) => {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      if (btnSubmitComment.disabled) return;
+
       const text = inputNewComment.value.trim();
       if (!text) return;
 
       const currentPhoto = localPhotosArray[currentPhotoIndex];
       if (!currentPhoto) return;
+
+      btnSubmitComment.disabled = true;
 
       fetch("/backend/handle_comments_action.php", {
         method: "POST",
@@ -319,19 +332,33 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((data) => {
           if (data.success) {
             inputNewComment.value = "";
-            loadPhotoComments(currentPhoto.id);
+            // reload only if you are still on the same photo
+            if (activePhotoIdForComments === currentPhoto.id) {
+              loadPhotoComments(currentPhoto.id);
+            }
           }
         })
-        .catch((err) => alert("Impossible d'envoyer le commentaire."));
+        .catch((err) => {
+          console.error(err);
+          alert("Impossible d'envoyer le commentaire.");
+        })
+        .finally(() => {
+          btnSubmitComment.disabled = false;
+        });
     };
 
-    btnSubmitComment.addEventListener("click", submitCommentAction);
-    inputNewComment.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
+    const newBtn = btnSubmitComment.cloneNode(true);
+    btnSubmitComment.parentNode.replaceChild(newBtn, btnSubmitComment);
+    newBtn.id = "btn-submit-comment"; // Conserver l'ID d'origine sur le clone
+
+    newBtn.addEventListener("click", submitCommentAction);
+
+    inputNewComment.onkeydown = (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
-        submitCommentAction();
+        submitCommentAction(e);
       }
-    });
+    };
   }
 
   if (btnFav) {
@@ -381,9 +408,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btnAddPhotosTrigger.addEventListener("click", () => {
       selectedFilesArray = [];
       if (uploadPreviewContainer) {
-        while (uploadPreviewContainer.firstChild) {
-          uploadPreviewContainer.removeChild(uploadPreviewContainer.firstChild);
-        }
+        uploadPreviewContainer.innerHTML = "";
       }
       if (uploadModal) uploadModal.classList.remove("hidden");
     });
@@ -398,15 +423,24 @@ document.addEventListener("DOMContentLoaded", () => {
     btnCancelUpload.addEventListener("click", closeUploadModalFunc);
 
   if (dropzoneArea && inputHiddenFile) {
-    dropzoneArea.addEventListener("click", () => inputHiddenFile.click());
+    dropzoneArea.addEventListener("click", (e) => {
+      // if the click comes directly from the input itself, then nothing is done
+      if (e.target === inputHiddenFile) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+      inputHiddenFile.click();
+    });
 
     dropzoneArea.addEventListener("dragover", (e) => {
       e.preventDefault();
       dropzoneArea.classList.add("dragover");
     });
+
     dropzoneArea.addEventListener("dragleave", () => {
       dropzoneArea.classList.remove("dragover");
     });
+
     dropzoneArea.addEventListener("drop", (e) => {
       e.preventDefault();
       dropzoneArea.classList.remove("dragover");
@@ -418,6 +452,7 @@ document.addEventListener("DOMContentLoaded", () => {
     inputHiddenFile.addEventListener("change", (e) => {
       if (e.target.files.length > 0) {
         handleFileSelection(e.target.files);
+        inputHiddenFile.value = "";
       }
     });
   }
@@ -588,5 +623,37 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         });
     });
+  }
+
+  // display album tags
+  const albumTagsContainer = document.getElementById("album-tags-container");
+  if (albumTagsContainer) {
+    albumTagsContainer.innerHTML = "";
+
+    try {
+      const rawAlbumTags = bridge.getAttribute("data-album-tags");
+      const albumTagsArray = rawAlbumTags ? JSON.parse(rawAlbumTags) : [];
+
+      if (albumTagsArray && albumTagsArray.length > 0) {
+        albumTagsArray.forEach((tag) => {
+          const tagChip = document.createElement("span");
+          tagChip.className = "tag-mini-chip";
+          tagChip.textContent = tag.name;
+
+          tagChip.style.border = "1px solid var(--brand-red, #ff4d4d)";
+          tagChip.style.padding = "4px 12px";
+          tagChip.style.borderRadius = "20px";
+          tagChip.style.marginRight = "8px";
+          tagChip.style.fontSize = "0.85rem";
+          tagChip.style.color = "var(--white, #ffffff)";
+          tagChip.style.display = "inline-block";
+          tagChip.style.marginTop = "5px";
+
+          albumTagsContainer.appendChild(tagChip);
+        });
+      }
+    } catch (e) {
+      console.error("Erreur lors du traitement des étiquettes de l'album :", e);
+    }
   }
 });

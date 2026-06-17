@@ -38,7 +38,7 @@ if (!isset($_SESSION['user_id'])) {
         <div class="header-right">
             <a href="../../profile/html/profile-user.php" class="header-avatar-link">
                 <div class="user-avatar-small"
-                    style="background-image: url('/<?= $_SESSION['avatar_url'] ?? 'assets/IMG/default-avatar.svg' ?>'); background-size: cover;">
+                    style="background-image: url('/<?= $_SESSION['avatar'] ?? 'assets/IMG/default-avatar.svg' ?>'); background-size: cover;">
                 </div>
             </a>
         </div>

@@ -21,6 +21,13 @@ if (!$album) {
     die("Cet album n'existe pas.");
 }
 
+$albumTags = $albumRepository->getAlbumTags($albumId);
+$albumTagsJson = htmlspecialchars(json_encode($albumTags), ENT_QUOTES, 'UTF-8');
+
+$db = Database::getConnection();
+$stmtGlobalTags = $db->query("SELECT id, name FROM tags ORDER BY name ASC");
+$allTags = $stmtGlobalTags->fetchAll(PDO::FETCH_ASSOC);
+
 // access rights
 $isOwner = ((int)$album['user_id'] === $userId);
 $contributorRight = $albumRepository->getContributorRights($albumId, $userId);
@@ -35,7 +42,7 @@ if ($album['visibility'] === 'restreint' && !$isOwner && !$contributorRight) {
 }
 
 $canModify = $isOwner || ($contributorRight === 'Peut modifier');
-$canComment = $isOwner || in_array($contributorRight, ['Peut modifier', 'Peut commenter', 'Peut voir']); // 'Peut voir' bloque les comms selon tes règles
+$canComment = $isOwner || in_array($contributorRight, ['Peut modifier', 'Peut commenter', 'Peut voir']);
 ?>
 <!doctype html>
 <html lang="fr">
@@ -53,7 +60,7 @@ $canComment = $isOwner || in_array($contributorRight, ['Peut modifier', 'Peut co
 <body class="view-album-body">
 
     <div id="album-bridge" data-id="<?= $album['id'] ?>" data-can-modify="<?= $canModify ? '1' : '0' ?>"
-        data-can-comment="<?= $canComment ? '1' : '0' ?>"></div>
+        data-can-comment="<?= $canComment ? '1' : '0' ?>" data-album-tags="<?= $albumTagsJson ?>"></div>
 
     <header class="main-header">
         <div class="header-left">
@@ -72,7 +79,7 @@ $canComment = $isOwner || in_array($contributorRight, ['Peut modifier', 'Peut co
         <div class="header-right">
             <a href="../../profile/html/profile-user.php" class="header-avatar-link">
                 <div class="user-avatar-small"
-                    style="background-image: url('/<?= $_SESSION['avatar_url'] ?? 'assets/IMG/default-avatar.svg' ?>'); background-size: cover;">
+                    style="background-image: url('/<?= $_SESSION['avatar'] ?? 'assets/IMG/default-avatar.svg' ?>'); background-size: cover;">
                 </div>
             </a>
         </div>
@@ -94,7 +101,8 @@ $canComment = $isOwner || in_array($contributorRight, ['Peut modifier', 'Peut co
                     <?php if ($canModify): ?>
                     <button class="btn-edit-album-details"><i class="fa-solid fa-pen"></i> Modifier</button>
                     <?php endif; ?>
-                    <button class="btn-more-options"><i class="fa-solid fa-ellipsis"></i></button>
+                    <button class="btn-share-album" title="Copier le lien de l'album"><i
+                            class="fa-solid fa-link"></i></button>
                 </div>
             </div>
 
@@ -194,7 +202,96 @@ $canComment = $isOwner || in_array($contributorRight, ['Peut modifier', 'Peut co
         </div>
     </div>
 
+    <?php if ($canModify): ?>
+    <div id="edit-album-modal" class="modal hidden">
+        <div class="modal-content modal-upload-large">
+            <div class="upload-modal-header">
+                <h3><i class="fa-solid fa-pen-to-square"></i> Modifier les informations de l'album</h3>
+                <button type="button" id="btn-close-edit-modal" class="btn-close-icon">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="form-edit-album" enctype="multipart/form-data">
+                <input type="hidden" name="album_id" value="<?= $album['id'] ?>">
+
+                <div class="preview-fields-container">
+                    <div class="form-control-group">
+                        <label for="edit-album-title">Titre de l'album *</label>
+                        <input type="text" id="edit-album-title" name="title"
+                            value="<?= htmlspecialchars($album['title']) ?>" required />
+                    </div>
+
+                    <div class="form-control-group">
+                        <label for="edit-album-description">Description</label>
+                        <textarea id="edit-album-description" name="description"
+                            rows="3"><?= htmlspecialchars($album['description'] ?? '') ?></textarea>
+                    </div>
+
+                    <div class="form-control-group" id="edit-tags-trigger">
+                        <label>Étiquettes de l'album</label>
+                        <div class="edit-tags-picker-zone">
+                            <span class="ghost-label-edit"><i class="fa-solid fa-tags"></i> Gérer les étiquettes</span>
+                            <div class="selected-tags-container" id="edit-selected-tags">
+                            </div>
+                        </div>
+                        <div id="edit-hidden-tags-inputs"></div>
+                    </div>
+
+                    <div class="form-control-group">
+                        <label for="edit-album-visibility">Visibilité</label>
+                        <select id="edit-album-visibility" name="visibility">
+                            <option value="privé" <?= $album['visibility'] === 'privé' ? 'selected' : '' ?>>Privé
+                            </option>
+                            <option value="restreint" <?= $album['visibility'] === 'restreint' ? 'selected' : '' ?>>
+                                Restreint (Contributeurs uniquement)</option>
+                            <option value="public" <?= $album['visibility'] === 'public' ? 'selected' : '' ?>>Public
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-control-group">
+                        <label>Nouvelle couverture de l'album (Optionnel)</label>
+                        <input type="file" id="edit-album-cover" name="cover_file" accept="image/*" />
+                    </div>
+                </div>
+
+                <div class="edit-invitation-container">
+                    <label class="edit-section-label">Gérer les contributeurs</label>
+                    <div class="edit-search-invite-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="edit-user-search-input"
+                            placeholder="Rechercher un pseudonyme à inviter..." autocomplete="off" />
+                    </div>
+                    <div class="edit-invited-list" id="edit-invited-users"></div>
+                </div>
+
+                <div class="upload-modal-actions">
+                    <button type="button" id="btn-cancel-edit" class="btn-secondary-cancel">Annuler</button>
+                    <button type="submit" id="btn-submit-edit-album" class="btn-primary">Enregistrer les
+                        modifications</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal hidden" id="edit-tags-modal">
+        <div class="modal-content">
+            <h3>Choisir des étiquettes</h3>
+            <div class="tags-cloud" id="edit-tags-cloud">
+                <?php foreach ($allTags as $gTag): ?>
+                <span class="tag-item" data-id="<?= $gTag['id'] ?>"><?= htmlspecialchars($gTag['name']) ?></span>
+                <?php endforeach; ?>
+            </div>
+            <button type="button" class="btn-primary" id="btn-close-edit-tags">Valider</button>
+        </div>
+    </div>
+    <?php endif; ?>
+
     <script src="../js/view-album.js"></script>
+    <script src="../js/edit-album.js"></script>
+    <script src="../js/copy-link.js"></script>
+    <script src="../js/edit-invitations.js"></script>
 </body>
 
 </html>
