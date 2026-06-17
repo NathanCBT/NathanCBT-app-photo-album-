@@ -60,7 +60,8 @@ $canComment = $isOwner || in_array($contributorRight, ['Peut modifier', 'Peut co
 <body class="view-album-body">
 
     <div id="album-bridge" data-id="<?= $album['id'] ?>" data-can-modify="<?= $canModify ? '1' : '0' ?>"
-        data-can-comment="<?= $canComment ? '1' : '0' ?>" data-album-tags="<?= $albumTagsJson ?>"></div>
+        data-can-comment="<?= $canComment ? '1' : '0' ?>" data-album-tags="<?= $albumTagsJson ?>"
+        data-user-id="<?= $userId ?>"></div>
 
     <header class="main-header">
         <div class="header-left">

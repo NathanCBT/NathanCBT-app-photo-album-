@@ -36,24 +36,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 // add a comment
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $input = json_decode(file_get_contents('php://input'), true);
-    
-    $photoId = isset($input['photo_id']) ? (int)$input['photo_id'] : null;
-    $content = isset($input['content']) ? trim($input['content']) : '';
-
-    if (!$photoId || empty($content)) {
-        http_response_code(400);
-        echo json_encode(["error" => "Données invalides ou commentaire vide"]);
-        exit;
-    }
+    $action = isset($input['action']) ? trim($input['action']) : 'create';
 
     try {
-        $success = $albumRepository->addComment($photoId, $userId, $content);
-        if ($success) {
-            echo json_encode(["success" => true, "message" => "Commentaire ajouté"]);
-        } else {
-            http_response_code(500);
-            echo json_encode(["error" => "Impossible d'enregistrer le commentaire"]);
+        // case of deletion
+        if ($action === 'delete') {
+            $commentId = isset($input['comment_id']) ? (int)$input['comment_id'] : null;
+
+            if (!$commentId) {
+                http_response_code(400);
+                echo json_encode(["error" => "ID du commentaire manquant"]);
+                exit;
+            }
+
+            $success = $albumRepository->deleteComment($commentId, $userId);
+
+            if ($success) {
+                echo json_encode(["success" => true, "message" => "Commentaire supprimé"]);
+            } else {
+                http_response_code(403);
+                echo json_encode(["error" => "Impossible de supprimer (Droit refusé ou introuvable)"]);
+            }
+            exit;
         }
+
+        // modification
+        if ($action === 'update') {
+            $commentId = isset($input['comment_id']) ? (int)$input['comment_id'] : null;
+            $content = isset($input['content']) ? trim($input['content']) : '';
+
+            if (!$commentId || empty($content)) {
+                http_response_code(400);
+                echo json_encode(["error" => "Données invalides ou texte vide"]);
+                exit;
+            }
+
+            $success = $albumRepository->updateComment($commentId, $userId, $content);
+
+            if ($success) {
+                echo json_encode(["success" => true, "message" => "Commentaire mis à jour"]);
+            } else {
+                http_response_code(403);
+                echo json_encode(["error" => "Impossible de modifier (Droit refusé ou introuvable)"]);
+            }
+            exit;
+        }
+
+        if ($action === 'create' || !isset($input['action'])) {
+            $photoId = isset($input['photo_id']) ? (int)$input['photo_id'] : null;
+            $content = isset($input['content']) ? trim($input['content']) : '';
+
+            if (!$photoId || empty($content)) {
+                http_response_code(400);
+                echo json_encode(["error" => "Données invalides ou commentaire vide"]);
+                exit;
+            }
+
+            $success = $albumRepository->addComment($photoId, $userId, $content);
+            if ($success) {
+                echo json_encode(["success" => true, "message" => "Commentaire ajouté"]);
+            } else {
+                http_response_code(500);
+                echo json_encode(["error" => "Impossible d'enregistrer le commentaire"]);
+            }
+            exit;
+        }
+
     } catch (Exception $e) {
         http_response_code(500);
         echo json_encode(["error" => "Erreur serveur"]);

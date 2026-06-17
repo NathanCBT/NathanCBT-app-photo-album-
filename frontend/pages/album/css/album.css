@@ -1689,3 +1689,79 @@
   background-color: var(--brand-pink);
   color: var(--white);
 }
+
+/* edit comment*/
+.comment-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+  background: #1e1e1e;
+  border-radius: 8px;
+  border: 1px solid #2d2d2d;
+  transition: background 0.2s ease;
+}
+
+.comment-item:hover {
+  background: #252525;
+}
+
+.comment-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+  border: 2px solid #ff4d4d;
+}
+
+.comment-content {
+  flex-grow: 1;
+}
+
+.comment-author {
+  font-weight: bold;
+  color: #ffffff;
+  margin: 0 0 4px 0;
+  font-size: 0.95rem;
+}
+
+.comment-text {
+  color: #cdcdcd;
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.comment-inline-actions {
+  display: flex;
+  gap: 6px;
+  align-shrink: 0;
+}
+
+.btn-edit-comment-inline,
+.btn-delete-comment-inline {
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  color: #b3b3b3;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.btn-edit-comment-inline:hover {
+  background: #3a3a3a;
+  color: #ffffff;
+  border-color: #555;
+}
+
+.btn-delete-comment-inline:hover {
+  background: rgba(255, 77, 77, 0.15);
+  color: #ff4d4d;
+  border-color: #ff4d4d;
+}

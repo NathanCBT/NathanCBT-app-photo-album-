@@ -6,12 +6,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const canModify = bridge.getAttribute("data-can-modify") === "1";
   const canComment = bridge.getAttribute("data-can-comment") === "1";
 
+  // retrieving the user id at the very top for global accessibility
+  const currentUserId = parseInt(bridge.getAttribute("data-user-id") || "0");
+
   const photosGrid = document.getElementById("album-photos-grid");
   const photoCountSpan = document.getElementById("photo-count-span");
 
   let localPhotosArray = [];
   let currentPhotoIndex = 0;
   let activePhotoIdForComments = null;
+
+  let commentIdBeingEdited = null;
 
   const dbTags = [
     { id: 1, name: "Famille" },
@@ -66,8 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (!photosGrid) return;
-
-    photosGrid.innerHTML = "";
+    photosGrid.textContent = "";
 
     if (localPhotosArray.length === 0) {
       const noPhoto = document.createElement("p");
@@ -144,19 +148,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     modalDesc.textContent =
       photo.description || "Aucune description pour cette photo.";
-
-    modalTagsContainer.innerHTML = "";
+    modalTagsContainer.textContent = "";
 
     if (photo.tags && photo.tags.length > 0) {
       photo.tags.forEach((tag) => {
         const tagChip = document.createElement("span");
         tagChip.className = "tag-mini-chip";
         tagChip.textContent = tag.name;
-        tagChip.style.border = "1px solid var(--brand-red, #ff4d4d)";
-        tagChip.style.padding = "4px 12px";
-        tagChip.style.borderRadius = "20px";
-        tagChip.style.marginRight = "8px";
-        tagChip.style.fontSize = "0.85rem";
         modalTagsContainer.appendChild(tagChip);
       });
     }
@@ -177,6 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch((err) => console.error("Erreur favoris:", err));
     }
 
+    resetCommentForm();
     loadPhotoComments(photo.id);
     modal.classList.remove("hidden");
   }
@@ -241,8 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!commentsList) return;
 
     activePhotoIdForComments = photoId;
-
-    commentsList.innerHTML = "";
+    commentsList.textContent = "";
 
     fetch(`/backend/handle_comments_action.php?photo_id=${photoId}`)
       .then((res) => res.json())
@@ -251,7 +249,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (activePhotoIdForComments !== photoId) return;
 
         // clear again to ensure that another fetch hasn't written at the same time - avoid the comment duplication bug
-        commentsList.innerHTML = "";
+        commentsList.textContent = "";
 
         if (!comments || comments.length === 0) {
           const placeholder = document.createElement("p");
@@ -266,6 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
         comments.forEach((comment) => {
           const commentItem = document.createElement("div");
           commentItem.className = "comment-item";
+          commentItem.setAttribute("data-comment-id", comment.id);
 
           const avatar = document.createElement("div");
           avatar.className = "comment-avatar";
@@ -289,12 +288,113 @@ document.addEventListener("DOMContentLoaded", () => {
           contentDiv.appendChild(text);
           commentItem.appendChild(avatar);
           commentItem.appendChild(contentDiv);
+
+          // copyright check for button display
+          if (parseInt(comment.user_id) === currentUserId) {
+            const actionsDiv = document.createElement("div");
+            actionsDiv.className = "comment-inline-actions";
+
+            // edit button
+            const btnEdit = document.createElement("button");
+            btnEdit.className = "btn-edit-comment-inline";
+            btnEdit.title = "Modifier ce commentaire";
+
+            const iconEdit = document.createElement("i");
+            iconEdit.className = "fa-solid fa-pen";
+            btnEdit.appendChild(iconEdit);
+
+            btnEdit.addEventListener("click", () =>
+              setupCommentEditMode(comment.id, text),
+            );
+
+            // delete button
+            const btnDelete = document.createElement("button");
+            btnDelete.className = "btn-delete-comment-inline";
+            btnDelete.title = "Supprimer ce commentaire";
+
+            const iconDelete = document.createElement("i");
+            iconDelete.className = "fa-solid fa-trash";
+            btnDelete.appendChild(iconDelete);
+
+            btnDelete.addEventListener("click", () =>
+              executeCommentDeletion(comment.id, photoId),
+            );
+
+            actionsDiv.appendChild(btnEdit);
+            actionsDiv.appendChild(btnDelete);
+            commentItem.appendChild(actionsDiv);
+          }
+
           commentsList.appendChild(commentItem);
         });
 
         commentsList.scrollTop = commentsList.scrollHeight;
       })
       .catch((err) => console.error("Erreur commentaires:", err));
+  }
+
+  function setupCommentEditMode(commentId, textElement) {
+    const inputNewComment = document.getElementById("input-new-comment");
+    const btnSubmitComment = document.getElementById("btn-submit-comment");
+    if (!inputNewComment || !btnSubmitComment) return;
+
+    commentIdBeingEdited = commentId;
+    inputNewComment.value = textElement.textContent.trim();
+    inputNewComment.placeholder =
+      "Modifiez votre commentaire... (Échap pour annuler)";
+
+    btnSubmitComment.classList.add("editing-mode");
+    inputNewComment.focus();
+  }
+
+  // reset the input box after validation or action
+  function resetCommentForm() {
+    const inputNewComment = document.getElementById("input-new-comment");
+    const btnSubmitComment = document.getElementById("btn-submit-comment");
+    if (!inputNewComment || !btnSubmitComment) return;
+
+    commentIdBeingEdited = null;
+    inputNewComment.value = "";
+    inputNewComment.placeholder = "Ajouter un commentaire...";
+    btnSubmitComment.classList.remove("editing-mode");
+  }
+
+  function executeCommentDeletion(commentId, photoId) {
+    if (!confirm("Voulez-vous vraiment supprimer ce commentaire ?")) return;
+
+    fetch("/backend/handle_comments_action.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "delete",
+        comment_id: commentId,
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Erreur lors de la suppression");
+        return res.json();
+      })
+      .then((data) => {
+        if (data.success) {
+          const commentRow = document.querySelector(
+            `.comment-item[data-comment-id="${commentId}"]`,
+          );
+          if (commentRow) commentRow.remove();
+
+          if (commentIdBeingEdited === commentId) {
+            resetCommentForm();
+          }
+
+          const commentsList = document.getElementById("modal-comments-list");
+          if (commentsList && commentsList.children.length === 0) {
+            loadPhotoComments(photoId);
+          }
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("Impossible de supprimer le commentaire.");
+      });
   }
 
   const btnSubmitComment = document.getElementById("btn-submit-comment");
@@ -317,39 +417,72 @@ document.addEventListener("DOMContentLoaded", () => {
 
       btnSubmitComment.disabled = true;
 
-      fetch("/backend/handle_comments_action.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          photo_id: currentPhoto.id,
-          content: text,
-        }),
-      })
-        .then((res) => {
-          if (!res.ok) throw new Error("Erreur lors de l'envoi");
-          return res.json();
+      // if edit mode is activate routing to the update action
+      if (commentIdBeingEdited !== null) {
+        fetch("/backend/handle_comments_action.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "update",
+            comment_id: commentIdBeingEdited,
+            content: text,
+          }),
         })
-        .then((data) => {
-          if (data.success) {
-            inputNewComment.value = "";
-            // reload only if you are still on the same photo
-            if (activePhotoIdForComments === currentPhoto.id) {
-              loadPhotoComments(currentPhoto.id);
+          .then((res) => {
+            if (!res.ok) throw new Error("Erreur lors de la modification");
+            return res.json();
+          })
+          .then((data) => {
+            if (data.success) {
+              resetCommentForm();
+              if (activePhotoIdForComments === currentPhoto.id) {
+                loadPhotoComments(currentPhoto.id);
+              }
             }
-          }
+          })
+          .catch((err) => {
+            console.error(err);
+            alert("Impossible de modifier le commentaire.");
+          })
+          .finally(() => {
+            btnSubmitComment.disabled = false;
+          });
+      } else {
+        // otherwise default creation behavior
+        fetch("/backend/handle_comments_action.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            photo_id: currentPhoto.id,
+            content: text,
+          }),
         })
-        .catch((err) => {
-          console.error(err);
-          alert("Impossible d'envoyer le commentaire.");
-        })
-        .finally(() => {
-          btnSubmitComment.disabled = false;
-        });
+          .then((res) => {
+            if (!res.ok) throw new Error("Erreur lors de l'envoi");
+            return res.json();
+          })
+          .then((data) => {
+            if (data.success) {
+              inputNewComment.value = "";
+              // reload only if you are still on the same photo
+              if (activePhotoIdForComments === currentPhoto.id) {
+                loadPhotoComments(currentPhoto.id);
+              }
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            alert("Impossible d'envoyer le commentaire.");
+          })
+          .finally(() => {
+            btnSubmitComment.disabled = false;
+          });
+      }
     };
 
     const newBtn = btnSubmitComment.cloneNode(true);
     btnSubmitComment.parentNode.replaceChild(newBtn, btnSubmitComment);
-    newBtn.id = "btn-submit-comment"; // Conserver l'ID d'origine sur le clone
+    newBtn.id = "btn-submit-comment";
 
     newBtn.addEventListener("click", submitCommentAction);
 
@@ -357,6 +490,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         submitCommentAction(e);
+      }
+      if (e.key === "Escape" && commentIdBeingEdited !== null) {
+        resetCommentForm();
       }
     };
   }
@@ -408,7 +544,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btnAddPhotosTrigger.addEventListener("click", () => {
       selectedFilesArray = [];
       if (uploadPreviewContainer) {
-        uploadPreviewContainer.innerHTML = "";
+        uploadPreviewContainer.textContent = "";
       }
       if (uploadModal) uploadModal.classList.remove("hidden");
     });
@@ -628,7 +764,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // display album tags
   const albumTagsContainer = document.getElementById("album-tags-container");
   if (albumTagsContainer) {
-    albumTagsContainer.innerHTML = "";
+    albumTagsContainer.textContent = "";
 
     try {
       const rawAlbumTags = bridge.getAttribute("data-album-tags");
@@ -639,16 +775,6 @@ document.addEventListener("DOMContentLoaded", () => {
           const tagChip = document.createElement("span");
           tagChip.className = "tag-mini-chip";
           tagChip.textContent = tag.name;
-
-          tagChip.style.border = "1px solid var(--brand-red, #ff4d4d)";
-          tagChip.style.padding = "4px 12px";
-          tagChip.style.borderRadius = "20px";
-          tagChip.style.marginRight = "8px";
-          tagChip.style.fontSize = "0.85rem";
-          tagChip.style.color = "var(--white, #ffffff)";
-          tagChip.style.display = "inline-block";
-          tagChip.style.marginTop = "5px";
-
           albumTagsContainer.appendChild(tagChip);
         });
       }

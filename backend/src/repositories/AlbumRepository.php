@@ -121,7 +121,7 @@ class AlbumRepository {
 
     public function getCommentsByPhotoId(int $photoId): array {
         $stmt = $this->db->prepare("
-            SELECT c.id, c.content, c.created_at, u.username, u.avatar_url 
+            SELECT c.id, c.user_id, c.content, c.created_at, u.username, u.avatar_url 
             FROM comments c
             JOIN users u ON c.user_id = u.id
             WHERE c.photo_id = ? 
@@ -277,5 +277,26 @@ class AlbumRepository {
         $sql .= implode(', ', $placeholders);
         $stmt = $this->db->prepare($sql);
         return $stmt->execute($params);
+    }
+
+    public function updateComment(int $commentId, int $userId, string $content): bool {
+        $stmt = $this->db->prepare("
+            UPDATE comments 
+            SET content = ? 
+            WHERE id = ? AND user_id = ?
+        ");
+        $stmt->execute([$content, $commentId, $userId]);
+        
+        return $stmt->rowCount() > 0;
+    }
+
+    public function deleteComment(int $commentId, int $userId): bool {
+        $stmt = $this->db->prepare("
+            DELETE FROM comments 
+            WHERE id = ? AND user_id = ?
+        ");
+        $stmt->execute([$commentId, $userId]);
+        
+        return $stmt->rowCount() > 0;
     }
 }
