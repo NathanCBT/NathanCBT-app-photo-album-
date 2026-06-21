@@ -137,6 +137,8 @@
   border-radius: 50%;
   background-color: var(--off-white);
   flex-shrink: 0;
+  background-size: cover;
+  background-position: center;
 }
 
 .user-result-card {

@@ -1736,12 +1736,6 @@
   word-break: break-word;
 }
 
-.comment-inline-actions {
-  display: flex;
-  gap: 6px;
-  align-shrink: 0;
-}
-
 .btn-edit-comment-inline,
 .btn-delete-comment-inline {
   background: #2a2a2a;

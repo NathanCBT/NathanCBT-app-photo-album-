@@ -66,7 +66,7 @@ class AuthController {
             // registration successful, user automatically logged in
             $_SESSION['user_id'] = $userId;
             $_SESSION['username'] = $username;
-            header('Location: ../../../frontend/pages/dashboard/html/dashboard.html');
+            header('Location: ../../../frontend/pages/dashboard/html/dashboard.php');
             exit;
 
         } catch (Exception $e) {
@@ -80,7 +80,7 @@ class AuthController {
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') return;
 
-        $identifier = trim($_POST['identifier'] ?? ''); // email ou le username
+        $identifier = trim($_POST['identifier'] ?? ''); // email or username
         $password = $_POST['password'] ?? '';
 
         if (empty($identifier) || empty($password)) {
@@ -99,7 +99,7 @@ class AuthController {
             $_SESSION['username'] = $user['username'];
             $_SESSION['avatar'] = $user['avatar_url'];
 
-            header('Location: ../../../frontend/pages/dashboard/html/dashboard.html');
+            header('Location: ../../../frontend/pages/dashboard/html/dashboard.php');
             exit;
         } else {
             $_SESSION['error'] = "Identifiants incorrects.";
