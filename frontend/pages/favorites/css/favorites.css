@@ -1,0 +1,178 @@
+/* Base de la page */
+body {
+  background-color: #121212;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.header-logo {
+  height: 32px;
+  width: auto;
+}
+
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background-color: var(--bg-black);
+  border-bottom: 1px solid var(--bg-dark-gray);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+.header-center-nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.user-avatar-small {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  flex-shrink: 0;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.favorites-main-layout {
+  margin-top: 70px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+.favorites-header {
+  margin-top: 10px;
+}
+
+.header-title-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.heart-icon-header {
+  font-size: 2rem;
+  color: #ffffff;
+}
+
+.favorites-header h1 {
+  font-size: 2.2rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.favorites-header .subtitle {
+  color: #aaaaaa;
+  margin: 8px 0 0 0;
+  font-size: 0.95rem;
+}
+
+.header-separator {
+  border: 0;
+  height: 1px;
+  background: var(--brand-red);
+  margin: 20px 0 30px 0;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.photos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+.photo-card-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.photo-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #1a1a1a;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+  cursor: pointer;
+  display: block;
+}
+
+.photo-card:hover {
+  transform: translateY(-4px);
+  opacity: 0.9;
+}
+
+.photo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.favorite-toggle-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  color: #ff3344;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.favorite-toggle-btn:hover {
+  transform: scale(1.15);
+}
+
+.empty-favorites {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: #aaaaaa;
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .favorites-main-layout {
+    padding: 16px;
+  }
+  .photos-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 12px;
+  }
+}

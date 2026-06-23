@@ -6,7 +6,6 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 ?>
-
 <!doctype html>
 <html lang="fr">
 
@@ -57,7 +56,6 @@ if (!isset($_SESSION['user_id'])) {
                     <h3>Albums récents</h3>
                     <a href="../../album/html/mes-albums.php" class="link-see-all">Voir tout &gt;</a>
                 </div>
-
                 <div class="albums-row-scroll" id="recent-albums-container"></div>
             </section>
 
@@ -66,37 +64,15 @@ if (!isset($_SESSION['user_id'])) {
                     <h3>Invitations</h3>
                     <a href="../../invitation/html/invitation.php" class="link-see-all">Voir tout &gt;</a>
                 </div>
-
-                <div class="invitations-list-vertical">
-                    <div class="invitation-mini-card">
-                        <div class="user-avatar-small bg-white"></div>
-                        <div class="invitation-info">
-                            <p class="invitation-text">
-                                <strong>Lucas Martin</strong> vous invite à contribuer à
-                                “Voyage en Italie”
-                            </p>
-                        </div>
-                    </div>
-                    <div class="invitation-mini-card">
-                        <div class="user-avatar-small bg-white"></div>
-                        <div class="invitation-info">
-                            <p class="invitation-text">
-                                <strong>Marie Jean</strong> vous invite à contribuer à “Voyage
-                                en Italie”
-                            </p>
-                        </div>
-                    </div>
-                    <div class="invitation-more-indicator">+ n</div>
-                </div>
+                <div class="invitations-list-vertical" id="invitations-container"></div>
             </section>
         </div>
 
         <section class="dashboard-panel panel-favorites">
             <div class="panel-header">
                 <h3>Photos favorites</h3>
-                <a href="#" class="link-see-all" onclick="event.preventDefault()">Voir tout &gt;</a>
+                <a href="../../favorites/html/favorites.php" class="link-see-all">Voir tout &gt;</a>
             </div>
-
             <div class="favorites-grid-layout" id="favorites-photos-container"></div>
         </section>
     </main>

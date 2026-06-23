@@ -82,7 +82,7 @@ try {
         <div class="profile-banner" id="profile-banner-display"
             style="background-image: <?= $banner ? "url('/" . htmlspecialchars(ltrim($banner, '/')) . "')" : 'none' ?>;">
             <a href="../../dashboard/html/dashboard.php" class="back-arrow-btn" title="Retour au Dashboard">
-                <i class="fa-solid fa-chevron-left"></i>
+                <i class="fa-solid fa-chevron-left" style="color: rgb(255, 255, 255);"></i>
             </a>
         </div>
 

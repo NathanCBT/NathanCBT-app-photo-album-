@@ -155,6 +155,19 @@ class AlbumRepository {
         return (bool)$stmt->fetch();
     }
 
+    public function getUserFavoritePhotos(int $userId): array {
+        $stmt = $this->db->prepare("
+            SELECT p.id, p.album_id, p.file_path, p.description, a.title as album_title
+            FROM favorites f
+            JOIN photos p ON f.photo_id = p.id
+            JOIN albums a ON p.album_id = a.id
+            WHERE f.user_id = ?
+            ORDER BY f.created_at DESC
+        ");
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function deleteAlbum(int $albumId, int $userId): bool {
         // verify that the album belongs to the logged-in user
         $stmt = $this->db->prepare("

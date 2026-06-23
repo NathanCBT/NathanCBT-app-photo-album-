@@ -1,27 +1,26 @@
 <?php
 session_start();
-
 if (!isset($_SESSION['user_id'])) {
-    header('Location: /frontend/pages/login-signin/html/login.php');
-    exit;
+    header("Location: /frontend/pages/login-signin/html/login.php");
+    exit();
 }
-
-$userId = (int)$_SESSION['user_id'];
 ?>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Invitations</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favoris</title>
     <link rel="icon" type="image/svg+xml" href="../../../assets/icons/faviconMemora.svg" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <link rel="stylesheet" href="../../css/style.css" />
-    <link rel="stylesheet" href="../css/invitation.css" />
+    <link rel="stylesheet" href="../../dashboard/css/dashboard.css" />
+    <link rel="stylesheet" href="../css/favorites.css">
 </head>
 
 <body>
+
     <header class="main-header">
         <div class="header-left">
             <img src="../../../assets/IMG/LogoMemora.svg" alt="Memora Logo" class="header-logo" />
@@ -34,7 +33,7 @@ $userId = (int)$_SESSION['user_id'];
             <a href="../../search/html/search.php" class="nav-item" title="Recherche">
                 <i class="fa-solid fa-magnifying-glass nav-icon"></i>
             </a>
-            <a href="invitation.php" class="nav-item active" title="Invitations">
+            <a href="../../invitation/html/invitation.php" class="nav-item" title="Invitations">
                 <i class="fa-solid fa-user-group nav-icon"></i>
             </a>
             <button type="button" class="nav-item btn-notif" title="Notifications">
@@ -51,30 +50,26 @@ $userId = (int)$_SESSION['user_id'];
         </div>
     </header>
 
-    <main class="invitation-main-layout">
-        <section class="invitation-panel">
-            <h2>Rechercher des personnes</h2>
-
-            <div class="search-bar-wrapper">
-                <i class="fa-solid fa-magnifying-glass search-input-icon"></i>
-                <input type="text" id="user-search-input" placeholder="Rechercher un utilisateur..."
-                    autocomplete="off" />
+    <main class="favorites-main-layout">
+        <header class="favorites-header">
+            <div class="header-title-row">
+                <i class="fa-regular fa-heart heart-icon-header"></i>
+                <h1>Mes favoris</h1>
             </div>
+            <p class="subtitle">Toutes les photos que vous avez ajoutées à vos favoris.</p>
+        </header>
 
-            <h3 class="section-subtitle">Résultat de recherche</h3>
-            <div class="search-results-container" id="search-results-container">
-                <p class="info-text">Saisissez un nom pour démarrer la recherche.</p>
-            </div>
-        </section>
+        <hr class="header-separator">
 
-        <section class="invitation-panel">
-            <h2>Invitations reçues</h2>
-            <div class="invitations-large-list" id="invitations-list-container">
+        <section class="favorites-content">
+            <h2 class="section-title">Photos (<span id="favorites-count">0</span>)</h2>
+
+            <div id="favorites-grid" class="photos-grid">
             </div>
         </section>
     </main>
 
-    <script src="../js/invitation.js"></script>
+    <script src="../js/favorites.js"></script>
 </body>
 
 </html>
