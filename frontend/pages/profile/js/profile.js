@@ -89,6 +89,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!userGrid) return;
     userGrid.textContent = "";
 
+    const isOwnProfile = bridge.getAttribute("data-is-own") === "1";
+
     if (!albums || albums.length === 0) {
       const noAlbumMsg = document.createElement("p");
       noAlbumMsg.className = "no-albums-message";
@@ -98,6 +100,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     albums.forEach((album) => {
+      // if the album is private and it's not our profile then we don't display it
+      if (album.visibility === "privé" && !isOwnProfile) {
+        return;
+      }
+
       const albumLink = document.createElement("a");
       albumLink.href = `/frontend/pages/album/html/view-album.php?id=${album.id}`;
       albumLink.className = "profile-album-card-wrapper";

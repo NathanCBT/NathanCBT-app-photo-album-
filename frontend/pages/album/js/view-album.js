@@ -6,8 +6,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const canModify = bridge.getAttribute("data-can-modify") === "1";
   const canComment = bridge.getAttribute("data-can-comment") === "1";
 
+  const isPrivate = bridge.getAttribute("data-is-private") === "1";
+
   // retrieving the user id at the very top for global accessibility
   const currentUserId = parseInt(bridge.getAttribute("data-user-id") || "0");
+
+  if (isPrivate && !canModify) {
+    alert(
+      "Cet album est privé. Vous n'avez pas l'autorisation de le consulter.",
+    );
+    window.location.href = "/frontend/pages/profile/profile.php";
+    return;
+  }
 
   const photosGrid = document.getElementById("album-photos-grid");
   const photoCountSpan = document.getElementById("photo-count-span");
@@ -48,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
   );
   const btnFav = document.getElementById("btn-favorite-photo");
 
-  if (!canComment && commentFormContainer) {
+  if (!canComment && currentUserId === 0 && commentFormContainer) {
     commentFormContainer.style.display = "none";
   }
 

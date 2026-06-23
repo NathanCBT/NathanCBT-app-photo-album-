@@ -59,9 +59,12 @@ $canComment = $isOwner || in_array($contributorRight, ['Peut modifier', 'Peut co
 
 <body class="view-album-body">
 
-    <div id="album-bridge" data-id="<?= $album['id'] ?>" data-can-modify="<?= $canModify ? '1' : '0' ?>"
-        data-can-comment="<?= $canComment ? '1' : '0' ?>" data-album-tags="<?= $albumTagsJson ?>"
-        data-user-id="<?= $userId ?>"></div>
+    <div id="album-bridge" data-id="<?php echo $album['id']; ?>" data-can-modify="<?php echo $canModify ? '1' : '0'; ?>"
+        data-can-comment="<?php echo $canComment ? '1' : '0'; ?>"
+        data-user-id="<?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '0'; ?>"
+        data-is-private="<?php echo ($album['visibility'] === 'privé') ? '1' : '0'; ?>"
+        data-album-tags="<?php echo htmlspecialchars(json_encode($albumTags)); ?>">
+    </div>
 
     <header class="main-header">
         <div class="header-left">

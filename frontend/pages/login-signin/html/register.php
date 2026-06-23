@@ -51,7 +51,7 @@ session_start();
                             <label for="reg-password">Mot de passe</label>
                             <div class="password-wrapper">
                                 <input type="password" id="reg-password" name="password"
-                                    placeholder="Au moins 6 caractères" required />
+                                    placeholder="Au moins 14 caractères" required />
                                 <button type="button" class="toggle-password"></button>
                             </div>
                         </div>

@@ -76,7 +76,7 @@ try {
 
 <body>
 
-    <div id="profile-bridge" data-user-id="<?= $userId ?>"></div>
+    <div id="profile-bridge" data-user-id="<?= $userId ?>" data-is-own="<?= $isOwnProfile ? '1' : '0' ?>"></div>
 
     <div class="profile-container">
         <div class="profile-banner" id="profile-banner-display"

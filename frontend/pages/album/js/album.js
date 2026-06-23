@@ -123,6 +123,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const photoInput = document.getElementById("photo-upload");
     const uploadPreview = document.getElementById("upload-preview");
 
+    let uploadedFilesMap = {};
+
     if (uploadTrigger && photoInput && uploadPreview) {
       uploadTrigger.addEventListener("click", () => photoInput.click());
 
@@ -130,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const files = e.target.files;
         const maxFileSize = 5 * 1024 * 1024; // 5Mo by photo
 
-        Array.from(files).forEach((file, index) => {
+        Array.from(files).forEach((file) => {
           if (file.size > maxFileSize) {
             if (typeof showErrorPopup === "function") {
               showErrorPopup(
@@ -142,10 +144,15 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
           }
 
+          const uniqueId = Date.now() + Math.random().toString(36).substr(2, 5);
+
+          uploadedFilesMap[uniqueId] = file;
+
           const reader = new FileReader();
           reader.onload = (event) => {
             const itemCard = document.createElement("div");
             itemCard.className = "preview-item-card";
+            itemCard.setAttribute("data-id", uniqueId);
 
             const imgBubble = document.createElement("div");
             imgBubble.className = "preview-image-bubble";
@@ -156,7 +163,10 @@ document.addEventListener("DOMContentLoaded", () => {
             btnRemove.type = "button";
             btnRemove.className = "btn-remove-preview-img";
             btnRemove.innerHTML = '<i class="fa-solid fa-trash"></i>';
-            btnRemove.addEventListener("click", () => itemCard.remove());
+            btnRemove.addEventListener("click", () => {
+              itemCard.remove();
+              delete uploadedFilesMap[uniqueId]; // Supprime aussi le fichier du tableau d'envoi !
+            });
             imgBubble.appendChild(btnRemove);
 
             const fieldsContainer = document.createElement("div");
@@ -166,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const descLabel = document.createElement("label");
             descLabel.textContent = "Description de la photo";
             const descInput = document.createElement("textarea");
-            descInput.name = `photo_descriptions[${index}]`;
+            descInput.name = `photo_descriptions[${uniqueId}]`;
             descInput.placeholder = "Un souvenir particulier, une anecdote...";
             descInput.rows = 2;
 
@@ -175,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
             dateLabel.textContent = "Date de prise";
             const dateInput = document.createElement("input");
             dateInput.type = "date";
-            dateInput.name = `photo_dates[${index}]`;
+            dateInput.name = `photo_dates[${uniqueId}]`;
 
             const tagPhotoLabel = document.createElement("label");
             tagPhotoLabel.textContent = "Étiquettes de la photo";
@@ -189,7 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
               const inputCheckbox = document.createElement("input");
               inputCheckbox.type = "checkbox";
-              inputCheckbox.name = `photo_tags[${index}][]`;
+              inputCheckbox.name = `photo_tags[${uniqueId}][]`;
               inputCheckbox.value = t.id;
 
               const spanText = document.createElement("span");
@@ -214,19 +224,45 @@ document.addEventListener("DOMContentLoaded", () => {
           };
           reader.readAsDataURL(file);
         });
+
+        // resets the input value to allow reselecting the same file if needed
+        photoInput.value = "";
       });
     }
 
     createForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
       const titleInput = createForm.querySelector(".title-input");
       if (!titleInput.value.trim()) {
-        e.preventDefault();
         if (typeof showErrorPopup === "function") {
           showErrorPopup("Votre album doit obligatoirement posséder un nom");
         } else {
           alert("Votre album doit obligatoirement posséder un nom");
         }
+        return;
       }
+
+      const formData = new FormData(createForm);
+
+      formData.delete("photos[]");
+
+      Object.keys(uploadedFilesMap).forEach((uniqueId) => {
+        formData.append(`photos[${uniqueId}]`, uploadedFilesMap[uniqueId]);
+      });
+
+      fetch("/backend/create_album_action.php", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => {
+          window.location.href =
+            "/frontend/pages/album/html/mes-albums.php?success=1";
+        })
+        .catch((err) => {
+          console.error("Erreur lors de la création :", err);
+          alert("Une erreur est survenue lors de l'enregistrement de l'album.");
+        });
     });
   }
 

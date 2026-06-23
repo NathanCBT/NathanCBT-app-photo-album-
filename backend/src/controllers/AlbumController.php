@@ -92,27 +92,30 @@ class AlbumController {
                 $photoDates = $_POST['photo_dates'] ?? [];
                 $photoTags = $_POST['photo_tags'] ?? [];
 
-                foreach ($_FILES['photos']['name'] as $index => $originalName) {
-                    if ($_FILES['photos']['error'][$index] === UPLOAD_ERR_OK) {
-                        $fileTmpPath = $_FILES['photos']['tmp_name'][$index];
-                        $fileSize = $_FILES['photos']['size'][$index];
+                // we loop directly through the unique keys received in the $_FILES
+                foreach ($_FILES['photos']['name'] as $uniqueId => $originalName) {
+                    if ($_FILES['photos']['error'][$uniqueId] === UPLOAD_ERR_OK) {
+                        
+                        $fileTmpPath = $_FILES['photos']['tmp_name'][$uniqueId];
+                        $fileSize = $_FILES['photos']['size'][$uniqueId];
                         $fileExtension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
                         $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
 
                         if (in_array($fileExtension, $allowedExtensions)) {
-                            $newPhotoName = "photo_" . uniqid() . "_" . $index . "." . $fileExtension;
+                            $newPhotoName = "photo_" . uniqid() . "_" . $uniqueId . "." . $fileExtension;
                             $fullTargetPath = $uploadPhotoDir . $newPhotoName;
 
                             if (move_uploaded_file($fileTmpPath, $fullTargetPath)) {
                                 $relativePhotoUrl = "frontend/uploads/albums/" . $newPhotoName;
 
-                                $pDesc = !empty($photoDescriptions[$index]) ? trim($photoDescriptions[$index]) : null;
-                                $pDate = !empty($photoDates[$index]) ? $photoDates[$index] : null;
+                                // direct recovery using the `$uniqueId` key without risk of offset
+                                $pDesc = !empty($photoDescriptions[$uniqueId]) ? trim($photoDescriptions[$uniqueId]) : null;
+                                $pDate = !empty($photoDates[$uniqueId]) ? $photoDates[$uniqueId] : null;
 
                                 $photoId = $this->albumRepository->createPhoto($albumId, $userId, $relativePhotoUrl, $fileSize, $pDesc, $pDate);
 
-                                if (isset($photoTags[$index]) && is_array($photoTags[$index])) {
-                                    foreach ($photoTags[$index] as $tagId) {
+                                if (isset($photoTags[$uniqueId]) && is_array($photoTags[$uniqueId])) {
+                                    foreach ($photoTags[$uniqueId] as $tagId) {
                                         $this->albumRepository->addTagToPhoto($photoId, (int)$tagId);
                                     }
                                 }

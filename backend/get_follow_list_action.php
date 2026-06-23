@@ -9,7 +9,12 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-$userId = (int)$_SESSION['user_id'];
+$currentUserId = (int)$_SESSION['user_id'];
+
+// if a profile_id is provided in the url and is not empty we use that one
+// otherwise it means we are looking at our own profile
+$targetUserId = (!empty($_GET['profile_id'])) ? (int)$_GET['profile_id'] : $currentUserId;
+
 $type = $_GET['type'] ?? 'followers'; 
 
 try {
@@ -31,7 +36,8 @@ try {
         ");
     }
     
-    $stmt->execute([$userId]);
+    // we pass $targetUserId to the request instead of the raw session
+    $stmt->execute([$targetUserId]);
     $list = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     echo json_encode([
