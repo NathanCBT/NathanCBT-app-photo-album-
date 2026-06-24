@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once __DIR__ . '/../Logger.php';
 require_once __DIR__ . '/../repositories/AlbumRepository.php';
 require_once __DIR__ . '/../services/AlbumService.php';
 
@@ -21,12 +22,15 @@ class AlbumController {
         }
 
         $userId = (int)$_SESSION['user_id'];
+        $albumTitle = trim($_POST['title'] ?? '');
 
         try {
             $albumId = $this->albumService->createFromRequest($userId, $_POST, $_FILES);
+            Logger::info($userId, 'album_create', 'album_id=' . $albumId . '; title=' . addslashes(substr($albumTitle, 0, 100)));
             header('Location: ../../../frontend/pages/album/html/mes-albums.php?success=1');
             exit;
         } catch (Exception $e) {
+            Logger::error('Echec création album', $e);
             $_SESSION['error'] = "Erreur lors de l'enregistrement : " . $e->getMessage();
             header('Location: ../../../frontend/pages/album/html/create-album.php');
             exit;
@@ -92,8 +96,10 @@ class AlbumController {
                 $photos[$index]['tags'] = $this->albumRepository->getPhotoTags((int)$photo['id']);
             }
 
+            Logger::info($userId, 'album_view', 'album_id=' . $albumId . '; visibility=' . $album['visibility']);
             echo json_encode($photos);
         } catch (Exception $e) {
+            Logger::error('Erreur lecture album', $e);
             http_response_code(500);
             echo json_encode(["error" => "Erreur serveur : " . $e->getMessage()]);
         }
@@ -149,6 +155,10 @@ class AlbumController {
 
         try {
             $result = $this->albumService->addPhotosFromRequest($userId, $album_id, $_POST, $_FILES);
+            if ($result['success']) {
+                Logger::info($userId, 'photo_upload', 'album_id=' . $album_id . '; count=' . $result['count']);
+            }
+
             echo json_encode([
                 'success' => $result['success'],
                 'message' => $result['success'] ? ($result['count'] . ' photo(s) importée(s) avec succès.') : 'Aucune photo importée.'
@@ -200,9 +210,15 @@ class AlbumController {
             $alreadyFav = $this->albumRepository->isPhotoFavorite($photoId, $userId);
             if ($alreadyFav) {
                 $success = $this->albumRepository->removePhotoFromFavorites($photoId, $userId);
+                if ($success) {
+                    Logger::info($userId, 'photo_unlike', 'photo_id=' . $photoId);
+                }
                 echo json_encode(["success" => $success, "is_favorite" => false]);
             } else {
                 $success = $this->albumRepository->addPhotoToFavorites($photoId, $userId);
+                if ($success) {
+                    Logger::info($userId, 'photo_like', 'photo_id=' . $photoId);
+                }
                 echo json_encode(["success" => $success, "is_favorite" => true]);
             }
             return;
@@ -252,6 +268,7 @@ class AlbumController {
 
                     $success = $this->albumRepository->deleteComment($commentId, $userId);
                     if ($success) {
+                        Logger::info($userId, 'comment_delete', 'comment_id=' . $commentId);
                         echo json_encode(["success" => true, "message" => "Commentaire supprimé"]);
                     } else {
                         http_response_code(403);
@@ -272,6 +289,7 @@ class AlbumController {
 
                     $success = $this->albumRepository->updateComment($commentId, $userId, $content);
                     if ($success) {
+                        Logger::info($userId, 'comment_update', 'comment_id=' . $commentId . '; length=' . strlen($content));
                         echo json_encode(["success" => true, "message" => "Commentaire mis à jour"]);
                     } else {
                         http_response_code(403);
@@ -292,6 +310,7 @@ class AlbumController {
 
                     $success = $this->albumRepository->addComment($photoId, $userId, $content);
                     if ($success) {
+                        Logger::info($userId, 'comment_create', 'photo_id=' . $photoId . '; length=' . strlen($content));
                         echo json_encode(["success" => true, "message" => "Commentaire ajouté"]);
                     } else {
                         http_response_code(500);
@@ -299,7 +318,6 @@ class AlbumController {
                     }
                     return;
                 }
-
             } catch (Exception $e) {
                 http_response_code(500);
                 echo json_encode(["error" => "Erreur serveur"]);
@@ -360,12 +378,14 @@ class AlbumController {
 
         try {
             $result = $this->albumService->updateFromRequest($userId, $albumId, $_POST, $_FILES);
+            Logger::info($userId, 'album_update', 'album_id=' . $albumId . '; title=' . addslashes(substr($title, 0, 100)) . '; visibility=' . $visibility . '; description_length=' . strlen($description));
             echo json_encode([
                 "success" => true,
                 "message" => "Album mis à jour avec succès !",
                 "data" => $result
             ]);
         } catch (Exception $e) {
+            Logger::error('Erreur edition album', $e);
             http_response_code(500);
             echo json_encode(["error" => "Erreur interne du serveur: " . $e->getMessage()]);
         }
@@ -392,12 +412,14 @@ class AlbumController {
         try {
             $success = $this->albumService->deletePhoto($userId, $photoId);
             if ($success) {
+                Logger::info($userId, 'photo_delete', 'photo_id=' . $photoId);
                 echo json_encode(["success" => true, "message" => "Photo supprimée avec succès."]);
             } else {
                 http_response_code(500);
                 echo json_encode(["error" => "Erreur lors de la suppression en base de données."]);
             }
         } catch (Exception $e) {
+            Logger::error('Erreur suppression photo', $e);
             if ($e->getMessage() === 'Forbidden') {
                 http_response_code(403);
                 echo json_encode(["error" => "Vous n'avez pas le droit de supprimer cette photo."]);
@@ -428,13 +450,13 @@ class AlbumController {
 
         try {
             $success = $this->albumService->deleteAlbum($userId, $albumId);
-            if ($success) {
-                echo json_encode(["success" => true, "message" => "Album et fichiers associés supprimés avec succès."]);
+            if ($success) {                Logger::info($userId, 'album_delete', 'album_id=' . $albumId);                echo json_encode(["success" => true, "message" => "Album et fichiers associés supprimés avec succès."]);
             } else {
                 http_response_code(500);
                 echo json_encode(["error" => "Erreur lors de la suppression en base de données."]);
             }
         } catch (Exception $e) {
+            Logger::error('Erreur suppression album', $e);
             if ($e->getMessage() === 'Forbidden') {
                 http_response_code(403);
                 echo json_encode(["error" => "Impossible de supprimer cet album (il ne vous appartient pas)."]);

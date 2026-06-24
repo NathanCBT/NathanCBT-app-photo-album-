@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+require_once __DIR__ . '/../Logger.php';
 require_once __DIR__ . '/../repositories/UserRepository.php';
 require_once __DIR__ . '/../repositories/AlbumRepository.php';
 
@@ -99,6 +100,7 @@ class ProfileController {
                 $newAvatar = $this->saveUploadedFile($_FILES['avatar'], __DIR__ . '/../../../frontend/uploads/avatars/', 'avatar_' . $userId . '_');
                 if ($newAvatar !== null) {
                     $avatarPath = $newAvatar;
+                    Logger::info($userId, 'profile_avatar_upload', 'avatar_url=' . $avatarPath);
                 }
             }
 
@@ -106,10 +108,12 @@ class ProfileController {
                 $newBanner = $this->saveUploadedFile($_FILES['banner'], __DIR__ . '/../../../frontend/uploads/banners/', 'banner_' . $userId . '_');
                 if ($newBanner !== null) {
                     $bannerPath = $newBanner;
+                    Logger::info($userId, 'profile_banner_upload', 'banner_url=' . $bannerPath);
                 }
             }
 
             $this->userRepository->updateProfile($userId, $bio, $avatarPath, $bannerPath);
+            Logger::info($userId, 'profile_update', 'bio=' . ($bio !== '' ? '1' : '0') . '; avatar_updated=' . ($avatarPath !== $user['avatar_url'] ? '1' : '0') . '; banner_updated=' . ($bannerPath !== $user['banner_url'] ? '1' : '0'));
 
             $_SESSION['bio'] = $bio;
             if ($avatarPath !== null) {
@@ -126,6 +130,7 @@ class ProfileController {
                 'banner' => $bannerPath
             ]);
         } catch (Exception $e) {
+            Logger::error('Erreur mise à jour profile', $e);
             http_response_code(500);
             echo json_encode(['error' => 'Erreur : ' . $e->getMessage()]);
         }
@@ -174,11 +179,18 @@ class ProfileController {
 
         try {
             $this->userRepository->updateUsernameOrEmail($userId, $username, $email);
+            $details = [];
             if ($username !== null) {
                 $_SESSION['username'] = $username;
+                $details[] = 'username_updated=1';
             }
+            if ($email !== null) {
+                $details[] = 'email_updated=1';
+            }
+            Logger::info($userId, 'profile_identifiers_update', implode('; ', $details));
             echo json_encode(['success' => true]);
         } catch (Exception $e) {
+            Logger::error('Erreur mise à jour identifiants', $e);
             http_response_code(500);
             echo json_encode(['error' => 'Erreur serveur : ' . $e->getMessage()]);
         }
@@ -212,8 +224,10 @@ class ProfileController {
 
             $newHash = password_hash($newPassword, PASSWORD_BCRYPT);
             $this->userRepository->updatePassword($userId, $newHash);
+            Logger::info($userId, 'profile_password_update', 'password_changed=1');
             echo json_encode(['success' => true]);
         } catch (Exception $e) {
+            Logger::error('Erreur mise à jour mot de passe', $e);
             http_response_code(500);
             echo json_encode(['error' => 'Erreur de mise à jour du mot de passe.']);
         }

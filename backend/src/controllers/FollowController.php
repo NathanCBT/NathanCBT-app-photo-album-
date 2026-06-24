@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+require_once __DIR__ . '/../Logger.php';
 require_once __DIR__ . '/../repositories/UserRepository.php';
 
 class FollowController {
@@ -65,15 +66,18 @@ class FollowController {
             $isFollowing = $this->userRepository->isFollowing($currentUserId, $targetUserId);
             if ($isFollowing) {
                 $this->userRepository->unfollow($currentUserId, $targetUserId);
-                $status = 'follow';
+                $status = 'unfollow';
+                Logger::info($currentUserId, 'user_unfollow', 'target_user_id=' . $targetUserId);
             } else {
                 $this->userRepository->follow($currentUserId, $targetUserId);
-                $status = 'unfollow';
+                $status = 'follow';
+                Logger::info($currentUserId, 'user_follow', 'target_user_id=' . $targetUserId);
             }
 
             $newFollowersCount = $this->userRepository->getFollowersCount($targetUserId);
             echo json_encode(['success' => true, 'status' => $status, 'followers_count' => $newFollowersCount]);
         } catch (Exception $e) {
+            Logger::error('Erreur toggle follow', $e);
             http_response_code(500);
             echo json_encode(['success' => false, 'error' => $e->getMessage()]);
         }

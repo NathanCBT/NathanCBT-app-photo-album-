@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once __DIR__ . '/../Logger.php';
 require_once __DIR__ . '/../repositories/UserRepository.php';
 
 class AuthController {
@@ -64,12 +65,14 @@ class AuthController {
             }
 
             // registration successful, user automatically logged in
+            Logger::info($userId, 'user_register', 'username=' . addslashes($username) . '; email=' . addslashes($email));
             $_SESSION['user_id'] = $userId;
             $_SESSION['username'] = $username;
             header('Location: ../../../frontend/pages/dashboard/html/dashboard.php');
             exit;
 
         } catch (Exception $e) {
+            Logger::error('Erreur inscription', $e);
             $_SESSION['error'] = "Une erreur est survenue lors de l'inscription.";
             header('Location: ../../../frontend/pages/login-signin/html/register.php');
             exit;
@@ -94,6 +97,7 @@ class AuthController {
 
         // account and hashed password verification
         if ($user && password_verify($password, $user['password'])) {
+            Logger::info((int)$user['id'], 'user_login', 'identifier=' . addslashes($identifier));
             // user session creation
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];

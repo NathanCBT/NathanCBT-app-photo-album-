@@ -1,0 +1,28 @@
+2026-06-24 13:23:47 | USER_ID=1 | ACTION=photo_unlike | DETAILS=photo_id=25
+2026-06-24 13:25:37 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=restreint
+2026-06-24 13:25:48 | USER_ID=1 | ACTION=photo_upload | DETAILS=album_id=31; count=1
+2026-06-24 13:25:48 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=restreint
+2026-06-24 17:06:30 | USER_ID=9 | ACTION=album_view | DETAILS=album_id=30; visibility=privé
+2026-06-24 17:07:10 | USER_ID=9 | ACTION=photo_like | DETAILS=photo_id=47
+2026-06-24 17:09:25 | USER_ID=9 | ACTION=user_unfollow | DETAILS=target_user_id=1
+2026-06-24 17:09:30 | USER_ID=9 | ACTION=user_follow | DETAILS=target_user_id=1
+2026-06-24 17:09:44 | USER_ID=9 | ACTION=user_unfollow | DETAILS=target_user_id=1
+2026-06-24 17:09:46 | USER_ID=9 | ACTION=user_follow | DETAILS=target_user_id=1
+2026-06-24 17:11:28 | USER_ID=9 | ACTION=profile_banner_upload | DETAILS=banner_url=frontend/uploads/banners/banner_9_1782321088.jpg
+2026-06-24 17:17:47 | USER_ID=9 | ACTION=user_login | DETAILS=identifier=marine
+2026-06-24 17:18:07 | USER_ID=9 | ACTION=profile_identifiers_update | DETAILS=username_updated=1
+2026-06-24 17:18:22 | USER_ID=9 | ACTION=user_logout | DETAILS=successful_logout=1
+2026-06-24 17:18:33 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-24 17:18:44 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=restreint
+2026-06-24 17:18:52 | USER_ID=1 | ACTION=comment_create | DETAILS=photo_id=48; length=3
+2026-06-24 17:19:03 | USER_ID=1 | ACTION=comment_update | DETAILS=comment_id=43; length=11
+2026-06-24 17:19:07 | USER_ID=1 | ACTION=comment_delete | DETAILS=comment_id=43
+2026-06-24 17:20:48 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=restreint
+2026-06-24 17:22:17 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-24 17:23:15 | USER_ID=1 | ACTION=photo_upload | DETAILS=album_id=31; count=1
+2026-06-24 17:23:15 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-24 17:30:22 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-24 17:30:42 | USER_ID=1 | ACTION=photo_upload | DETAILS=album_id=31; count=1
+2026-06-24 17:30:42 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-24 17:31:21 | USER_ID=1 | ACTION=photo_delete | DETAILS=photo_id=55
+2026-06-24 17:31:52 | USER_ID=1 | ACTION=album_update | DETAILS=album_id=31; title=Travis Scott; visibility=public; description_length=5
