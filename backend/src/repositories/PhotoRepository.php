@@ -1,10 +1,12 @@
 <?php
 
+require_once __DIR__ . '/../models/Database.php';
+
 class PhotoRepository {
     private $pdo;
 
-    public function __construct($pdo) {
-        $this->pdo = $pdo;
+    public function __construct($pdo = null) {
+        $this->pdo = $pdo ?? Database::getConnection();
     }
 
     public function searchPhotos($userId, $criteria) {

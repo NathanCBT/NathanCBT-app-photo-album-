@@ -99,6 +99,47 @@ class AlbumRepository {
         $stmt->execute([$albumId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getPhotosByUserId(int $userId): array {
+        $stmt = $this->db->prepare("
+        SELECT file_path 
+        FROM photos 
+        WHERE user_id = ?
+        ");
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAlbumCoverUrlsByUserId(int $userId): array {
+        $stmt = $this->db->prepare("
+        SELECT cover_url 
+        FROM albums 
+        WHERE user_id = ?
+        ");
+        $stmt->execute([$userId]);
+        return array_column($stmt->fetchAll(PDO::FETCH_ASSOC), 'cover_url');
+    }
+
+    public function getInvitationsByUserId(int $userId): array {
+        $stmt = $this->db->prepare("
+        SELECT ac.album_id, ac.rights, a.title AS album_title, u.username, COALESCE(u.display_name, u.username) AS host_name, COALESCE(u.display_name, u.username) AS sender_name, u.avatar_url AS host_avatar, u.avatar_url AS avatar\n                FROM album_contributors ac\n                JOIN albums a ON ac.album_id = a.id\n                JOIN users u ON a.user_id = u.id\n                WHERE ac.user_id = ? AND a.user_id != ?\n                ORDER BY a.created_at DESC"
+        );
+        $stmt->execute([$userId, $userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAlbumsWithPhotoCountsByUserId(int $userId): array {
+        $stmt = $this->db->prepare("
+            SELECT a.id, a.title, a.cover_url AS banner, COUNT(p.id) AS photos_count
+            FROM albums a
+            LEFT JOIN photos p ON a.id = p.album_id
+            WHERE a.user_id = ?
+            GROUP BY a.id
+            ORDER BY a.created_at DESC
+        ");
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     
     public function getPhotoTags(int $photoId): array {
         $stmt = $this->db->prepare("
