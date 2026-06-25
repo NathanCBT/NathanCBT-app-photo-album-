@@ -3,6 +3,10 @@ document.addEventListener("DOMContentLoaded", () => {
     "form[action*='register_action.php']",
   );
 
+  const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{14,}$/;
+  const passwordErrorMessage =
+    "Le mot de passe doit comporter au moins 14 caractères, une majuscule, une minuscule et un caractère spécial.";
+
   const step1Div = document.getElementById("step-1");
   const step2Div = document.getElementById("step-2");
   const btnToStep2 = document.getElementById("btn-to-step-2");
@@ -32,12 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // faire des regexs pour la solidité du mp
-      if (passwordInput.value.length < 14) {
-        console.error("Mot de passe trop court");
-        showErrorPopup(
-          "Le mot de passe doit comporter au moins 14 caractères.",
-        );
+      if (!passwordPattern.test(passwordInput.value)) {
+        console.error("Mot de passe non conforme.");
+        showErrorPopup(passwordErrorMessage);
         return;
       }
 
@@ -56,6 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (globalForm) {
     globalForm.addEventListener("submit", (e) => {
       const usernameInput = document.getElementById("username");
+      const passwordInput = document.getElementById("reg-password");
+      const confirmInput = document.getElementById("confirm-password");
 
       if (
         !usernameInput.value.trim() ||
@@ -69,8 +72,30 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      if (!passwordPattern.test(passwordInput.value)) {
+        e.preventDefault();
+        console.error("Mot de passe non conforme.");
+        showErrorPopup(passwordErrorMessage);
+        return;
+      }
+
+      if (passwordInput.value !== confirmInput.value) {
+        e.preventDefault();
+        console.error("Erreur, les deux mots de passe ne sont pas identiques");
+        showErrorPopup("Les deux mots de passe saisis ne correspondent pas.");
+        return;
+      }
+
       console.log("formulaire valide, envoi au serveur PHP");
     });
+  }
+
+  const phpErrorBridge = document.getElementById("php-error-bridge");
+  if (phpErrorBridge) {
+    const serverError = phpErrorBridge.getAttribute("data-message");
+    if (serverError) {
+      showErrorPopup(serverError);
+    }
   }
 
   // avatar

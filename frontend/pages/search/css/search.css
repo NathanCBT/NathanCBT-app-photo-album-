@@ -426,7 +426,7 @@ body {
 
   .search-subbar-container {
     padding: 0 16px;
-    margin-top: 0.9rem;
+    height: 6rem;
   }
 
   .search-sidebar {
@@ -450,5 +450,8 @@ body {
   .photos-grid {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 12px;
+  }
+  .results-header {
+    margin-top: 16px;
   }
 }

@@ -25,6 +25,12 @@ class AuthController {
             exit;
         }
 
+        if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{14,}$/', $password)) {
+            $_SESSION['error'] = "Le mot de passe doit comporter au moins 14 caractères, une majuscule, une minuscule et un caractère spécial.";
+            header('Location: ../../../frontend/pages/login-signin/html/register.php');
+            exit;
+        }
+
         // if the user is already exists
         if ($this->userRepository->findByEmailOrUsername($email) || $this->userRepository->findByEmailOrUsername($username)) {
             $_SESSION['error'] = "Le pseudonyme ou l'adresse email est déjà utilisé.";
@@ -68,6 +74,13 @@ class AuthController {
             Logger::info($userId, 'user_register', 'username=' . addslashes($username) . '; email=' . addslashes($email));
             $_SESSION['user_id'] = $userId;
             $_SESSION['username'] = $username;
+            // ensure avatar is available in session for immediate display across pages
+            if (isset($relativeUrl) && $relativeUrl) {
+                $_SESSION['avatar'] = $relativeUrl;
+            } else {
+                $_SESSION['avatar'] = 'frontend/assets/IMG/default-avatar.svg';
+            }
+
             header('Location: ../../../frontend/pages/dashboard/html/dashboard.php');
             exit;
 

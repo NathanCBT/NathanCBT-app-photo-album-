@@ -36,10 +36,13 @@ class ProfileController {
 
             $albums = $this->albumRepository->getAlbumsByUserId($userId);
             $totalPhotos = 0;
-            foreach ($albums as $album) {
+            $isProfileOwner = ($currentUserId === $userId);
+            foreach ($albums as &$album) {
                 $photos = $this->albumRepository->getPhotosByAlbumId((int)$album['id']);
                 $totalPhotos += count($photos);
+                $album['is_invited'] = $isProfileOwner ? true : (bool)$this->albumRepository->getContributorRights((int)$album['id'], $currentUserId);
             }
+            unset($album);
 
             $userData = [
                 "bio" => $user['bio'] ?? "Aucune biographie pour le moment.",

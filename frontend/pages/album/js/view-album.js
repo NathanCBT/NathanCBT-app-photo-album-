@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
   );
   const btnFav = document.getElementById("btn-favorite-photo");
 
-  if (!canComment && currentUserId === 0 && commentFormContainer) {
+  if (!canComment && commentFormContainer) {
     commentFormContainer.style.display = "none";
   }
 

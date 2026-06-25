@@ -42,7 +42,7 @@ if ($album['visibility'] === 'restreint' && !$isOwner && !$contributorRight) {
 }
 
 $canModify = $isOwner || ($contributorRight === 'Peut modifier');
-$canComment = $isOwner || in_array($contributorRight, ['Peut modifier', 'Peut commenter', 'Peut voir']);
+$canComment = $isOwner || in_array($contributorRight, ['Peut modifier', 'Peut commenter']);
 ?>
 <!doctype html>
 <html lang="fr">

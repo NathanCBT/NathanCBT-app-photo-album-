@@ -53,13 +53,17 @@ document.addEventListener("DOMContentLoaded", () => {
     loadingMsg.textContent = "Chargement...";
     container.appendChild(loadingMsg);
 
-    // we retrieve the id of the visited profile from the url
-    const urlParams = new URLSearchParams(window.location.search);
-    const profileId = urlParams.get("id") || ""; // empty means "my profile" for the backend
+    const profileBridge = document.getElementById("profile-bridge");
+    const profileId =
+      profileBridge?.getAttribute("data-user-id") ||
+      new URLSearchParams(window.location.search).get("id") ||
+      "";
 
-    fetch(
-      `/backend/get_follow_list_action.php?type=${type}&profile_id=${profileId}`,
-    )
+    const followUrl = profileId
+      ? `/backend/get_follow_list_action.php?type=${type}&profile_id=${profileId}`
+      : `/backend/get_follow_list_action.php?type=${type}`;
+
+    fetch(followUrl)
       .then((res) => res.json())
       .then((data) => {
         container.textContent = "";

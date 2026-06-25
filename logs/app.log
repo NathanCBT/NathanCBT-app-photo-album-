@@ -51,3 +51,27 @@
 2026-06-25 13:54:24 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
 2026-06-25 13:54:52 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
 2026-06-25 13:58:39 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-25 14:12:47 | USER_ID=9 | ACTION=user_login | DETAILS=identifier=marine
+2026-06-25 14:14:09 | USER_ID=9 | ACTION=album_create | DETAILS=album_id=33; title=Porsche
+2026-06-25 14:16:12 | USER_ID=9 | ACTION=album_view | DETAILS=album_id=33; visibility=restreint
+2026-06-25 14:16:26 | USER_ID=9 | ACTION=album_update | DETAILS=album_id=33; title=Porsche; visibility=restreint; description_length=3
+2026-06-25 14:16:41 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=33; visibility=restreint
+2026-06-25 14:17:03 | USER_ID=1 | ACTION=comment_create | DETAILS=photo_id=56; length=18
+2026-06-25 14:17:07 | USER_ID=1 | ACTION=comment_delete | DETAILS=comment_id=44
+2026-06-25 14:23:16 | USER_ID=9 | ACTION=album_view | DETAILS=album_id=33; visibility=restreint
+2026-06-25 14:23:23 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=33; visibility=restreint
+2026-06-25 14:23:28 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=33; visibility=restreint
+2026-06-25 14:23:30 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=33; visibility=restreint
+2026-06-25 14:23:30 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=33; visibility=restreint
+2026-06-25 14:23:50 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=33; visibility=restreint
+2026-06-25 14:24:33 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=33; visibility=restreint
+2026-06-25 14:29:34 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=33; visibility=restreint
+2026-06-25 14:35:11 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=33; visibility=restreint
+2026-06-25 15:23:03 | USER_ID=1 | ACTION=album_create | DETAILS=album_id=34; title=snoopy
+2026-06-25 15:23:07 | USER_ID=1 | ACTION=album_delete | DETAILS=album_id=34
+2026-06-25 15:54:05 | USER_ID=9 | ACTION=user_logout | DETAILS=successful_logout=1
+2026-06-25 15:57:47 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-25 16:03:29 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-25 16:16:39 | USER_ID=11 | ACTION=user_register | DETAILS=username=Pierre; email=pierre@gamil.com
+2026-06-25 16:25:05 | USER_ID=11 | ACTION=user_logout | DETAILS=successful_logout=1
+2026-06-25 16:27:37 | USER_ID=12 | ACTION=user_register | DETAILS=username=travis; email=travis@gmail.com

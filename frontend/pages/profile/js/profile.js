@@ -105,6 +105,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      // if the album is restricted and the visitor is not the owner or an invited contributor, we don't display it
+      if (
+        album.visibility === "restreint" &&
+        !isOwnProfile &&
+        !album.is_invited
+      ) {
+        return;
+      }
+
       const albumLink = document.createElement("a");
       albumLink.href = `/frontend/pages/album/html/view-album.php?id=${album.id}`;
       albumLink.className = "profile-album-card-wrapper";
