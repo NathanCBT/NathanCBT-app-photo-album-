@@ -111,7 +111,7 @@ $canComment = $isOwner || in_array($contributorRight, ['Peut modifier', 'Peut co
 
             <p class="album-meta">
                 <span id="photo-count-span">0 photo</span> . Créé le
-                <?= date('d m Y', strtotime($album['created_at'])) ?>
+                <?= date('d/m/Y', strtotime($album['created_at'])) ?>
             </p>
 
             <p class="album-view-description">

@@ -248,46 +248,69 @@
 @media (max-width: 600px) {
   .main-header {
     border-bottom: 2px solid #1a1a1a;
-    height: 10%;
+    height: 70px;
     justify-content: space-between;
+    padding: 0 16px;
   }
   .header-center-nav {
-    gap: 0px;
-    left: 40%;
-  }
-
-  .header-right {
-    left: 50%;
+    gap: 16px;
+    position: static;
+    transform: none;
+    left: auto;
   }
   .header-logo {
     display: none;
   }
-  .dashboard-main-layout {
-    padding: 16px;
-    margin-top: 6rem;
+  .user-avatar-small {
+    height: 36px;
+    width: 36px;
   }
-  .dashboard-album-card {
-    flex: 0 0 calc(50% - 8px);
+  .nav-item {
+    width: 44px;
+    height: 44px;
   }
-  .dashboard-panel {
-    width: 55%;
+  .nav-icon {
+    font-size: 18px;
   }
 
-  .dashboard-panel.panel-favorites {
+  .dashboard-main-layout {
+    padding: 16px;
+    margin-top: 80px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  .dashboard-top-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     width: 100%;
   }
 
+  .dashboard-panel {
+    width: 100% !important;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .albums-row-scroll {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    width: 100%;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .dashboard-album-card {
+    flex: 0 0 140px;
+    width: 140px;
+  }
+
   .favorites-grid-layout {
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  }
-  .user-avatar-small {
-    height: 4rem;
-    width: 4rem;
-  }
-  .nav-item {
-    width: 80px;
-  }
-  .nav-icon {
-    font-size: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
   }
 }

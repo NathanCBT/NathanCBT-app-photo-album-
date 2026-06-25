@@ -1764,34 +1764,95 @@
 }
 
 @media (max-width: 600px) {
+  /* 1. Harmonisation et alignement du Main Header */
   .main-header {
     border-bottom: 2px solid #1a1a1a;
-    height: 10%;
+    height: 70px; /* Hauteur fixe standardisée sur tout le site */
     justify-content: space-between;
+    padding: 0 16px;
+    box-sizing: border-box;
   }
+
   .header-center-nav {
-    gap: 0px;
-    left: 40%;
+    gap: 16px;
+    position: static; /* Supprime le positionnement absolu pour laisser le flex aligner */
+    transform: none;
+    left: auto;
   }
 
-  .header-right {
-    left: 50%;
-  }
   .header-logo {
-    display: none;
+    display: none; /* Masque le logo sur mobile comme sur le reste du site */
   }
 
-  .favorites-grid-layout {
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  }
   .user-avatar-small {
-    height: 4rem;
-    width: 4rem;
+    height: 36px;
+    width: 36px;
   }
+
   .nav-item {
-    width: 80px;
+    width: 44px;
+    height: 44px;
   }
+
   .nav-icon {
-    font-size: 20px;
+    font-size: 18px;
+  }
+
+  /* 2. Ajustements du Layout des pages d'albums pour coller au header de 70px */
+  .album-page-layout {
+    padding: 16px;
+    margin-top: 80px; /* Évite les chevauchements */
+    box-sizing: border-box;
+  }
+
+  .album-detail-layout {
+    padding: 16px;
+    box-sizing: border-box;
+  }
+
+  .album-banner-hero {
+    height: 180px; /* Réduction de la bannière sur mobile pour un meilleur confort visuel */
+    margin-top: 70px;
+  }
+
+  .btn-back-circle {
+    top: 12px;
+    left: 12px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .title-actions-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .album-action-buttons {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  /* Ajustement de la grille des photos et albums sur mobile */
+  .albums-grid,
+  #album-photos-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important;
+    gap: 12px !important;
+  }
+
+  /* Rendre la modale de photo plein écran sur mobile */
+  .photo-modal-content {
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .modal-left-pane {
+    height: 300px;
+    flex-shrink: 0;
+  }
+
+  .modal-right-pane {
+    padding: 16px;
   }
 }

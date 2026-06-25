@@ -257,43 +257,69 @@
 }
 
 @media (max-width: 600px) {
+  .main-header {
+    border-bottom: 2px solid #1a1a1a;
+    height: 70px;
+    justify-content: space-between;
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
+
+  .header-center-nav {
+    gap: 16px;
+    position: static;
+    transform: none;
+    left: auto;
+  }
+
+  .header-right {
+    left: auto;
+  }
+
+  .header-logo {
+    display: none;
+  }
+
+  .user-avatar-small {
+    height: 36px;
+    width: 36px;
+  }
+
+  .nav-item {
+    width: 44px;
+    height: 44px;
+  }
+
+  .nav-icon {
+    font-size: 18px;
+  }
+
+  .invitation-main-layout {
+    padding: 16px;
+    margin-top: 85px;
+    box-sizing: border-box;
+  }
+
+  .invitation-panel {
+    padding: 20px;
+  }
+
   .invitation-row-card {
     flex-direction: column;
     align-items: flex-start;
     gap: 14px;
+    padding: 20px 0;
   }
+
   .invitation-actions {
     width: 100%;
     justify-content: flex-end;
-  }
-  .invitation-main-layout {
-    padding: 16px;
-  }
-  .header-logo {
-    display: none;
-  }
-  .main-header {
-    border-bottom: 2px solid #1a1a1a;
-    height: 10%;
-    justify-content: space-between;
-  }
-  .header-center-nav {
-    gap: 0px;
-    left: 40%;
+    gap: 8px;
   }
 
-  .header-right {
-    left: 50%;
-  }
-
-  .user-avatar-small {
-    height: 4rem;
-    width: 4rem;
-  }
-  .nav-item {
-    width: 80px;
-  }
-  .nav-icon {
-    font-size: 20px;
+  .btn-action-accept,
+  .btn-action-refuse {
+    padding: 10px 20px;
+    font-size: 13px;
   }
 }

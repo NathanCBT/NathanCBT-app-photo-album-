@@ -75,3 +75,13 @@
 2026-06-25 16:16:39 | USER_ID=11 | ACTION=user_register | DETAILS=username=Pierre; email=pierre@gamil.com
 2026-06-25 16:25:05 | USER_ID=11 | ACTION=user_logout | DETAILS=successful_logout=1
 2026-06-25 16:27:37 | USER_ID=12 | ACTION=user_register | DETAILS=username=travis; email=travis@gmail.com
+2026-06-25 20:10:58 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-25 20:27:07 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-25 20:27:42 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-25 20:27:54 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=15; visibility=privé
+2026-06-25 20:45:51 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-25 20:54:27 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-25 21:08:49 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-25 21:27:06 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=20; visibility=restreint
+2026-06-25 21:29:03 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=20; visibility=restreint
+2026-06-25 21:29:23 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=20; visibility=restreint
