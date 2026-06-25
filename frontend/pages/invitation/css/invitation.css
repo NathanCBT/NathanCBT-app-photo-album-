@@ -256,7 +256,7 @@
   background-color: rgba(255, 255, 255, 0.05);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 600px) {
   .invitation-row-card {
     flex-direction: column;
     align-items: flex-start;
@@ -268,5 +268,32 @@
   }
   .invitation-main-layout {
     padding: 16px;
+  }
+  .header-logo {
+    display: none;
+  }
+  .main-header {
+    border-bottom: 2px solid #1a1a1a;
+    height: 10%;
+    justify-content: space-between;
+  }
+  .header-center-nav {
+    gap: 0px;
+    left: 40%;
+  }
+
+  .header-right {
+    left: 50%;
+  }
+
+  .user-avatar-small {
+    height: 4rem;
+    width: 4rem;
+  }
+  .nav-item {
+    width: 80px;
+  }
+  .nav-icon {
+    font-size: 20px;
   }
 }

@@ -26,3 +26,28 @@
 2026-06-24 17:30:42 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
 2026-06-24 17:31:21 | USER_ID=1 | ACTION=photo_delete | DETAILS=photo_id=55
 2026-06-24 17:31:52 | USER_ID=1 | ACTION=album_update | DETAILS=album_id=31; title=Travis Scott; visibility=public; description_length=5
+2026-06-24 21:14:56 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-24 21:15:17 | USER_ID=1 | ACTION=user_logout | DETAILS=successful_logout=1
+2026-06-24 21:15:45 | USER_ID=9 | ACTION=user_login | DETAILS=identifier=marine
+2026-06-24 21:18:43 | USER_ID=9 | ACTION=user_logout | DETAILS=successful_logout=1
+2026-06-25 09:16:17 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-25 09:36:54 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-25 09:39:12 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-25 09:41:07 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-25 10:49:46 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-25 11:06:33 | USER_ID=1 | ACTION=user_logout | DETAILS=successful_logout=1
+2026-06-25 11:06:47 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-25 11:07:24 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-25 11:08:17 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-25 11:08:41 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-25 11:09:59 | USER_ID=9 | ACTION=user_login | DETAILS=identifier=marine
+2026-06-25 11:21:08 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-25 11:21:34 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=15; visibility=privé
+2026-06-25 13:45:16 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=22; visibility=restreint
+2026-06-25 13:48:07 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-25 13:49:10 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-25 13:49:21 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-25 13:53:04 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-25 13:54:24 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-25 13:54:52 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-25 13:58:39 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth

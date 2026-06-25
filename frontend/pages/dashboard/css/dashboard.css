@@ -247,15 +247,47 @@
 
 @media (max-width: 600px) {
   .main-header {
-    padding: 0 16px;
+    border-bottom: 2px solid #1a1a1a;
+    height: 10%;
+    justify-content: space-between;
   }
   .header-center-nav {
-    gap: 16px;
+    gap: 0px;
+    left: 40%;
+  }
+
+  .header-right {
+    left: 50%;
+  }
+  .header-logo {
+    display: none;
   }
   .dashboard-main-layout {
     padding: 16px;
+    margin-top: 6rem;
   }
   .dashboard-album-card {
     flex: 0 0 calc(50% - 8px);
+  }
+  .dashboard-panel {
+    width: 55%;
+  }
+
+  .dashboard-panel.panel-favorites {
+    width: 100%;
+  }
+
+  .favorites-grid-layout {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  }
+  .user-avatar-small {
+    height: 4rem;
+    width: 4rem;
+  }
+  .nav-item {
+    width: 80px;
+  }
+  .nav-icon {
+    font-size: 20px;
   }
 }

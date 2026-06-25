@@ -37,9 +37,6 @@ $userId = (int)$_SESSION['user_id'];
             <a href="invitation.php" class="nav-item active" title="Invitations">
                 <i class="fa-solid fa-user-group nav-icon"></i>
             </a>
-            <button type="button" class="nav-item btn-notif" title="Notifications">
-                <i class="fa-solid fa-bell nav-icon"></i>
-            </button>
         </nav>
 
         <div class="header-right">

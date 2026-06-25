@@ -391,11 +391,32 @@ body {
 
 @media (max-width: 900px) {
   .main-header {
-    padding: 0 16px;
+    border-bottom: 2px solid #1a1a1a;
+    height: 10%;
+    justify-content: space-between;
   }
 
   .header-center-nav {
-    gap: 16px;
+    gap: 0px;
+    left: 40%;
+  }
+
+  .header-right {
+    left: 50%;
+  }
+  .header-logo {
+    display: none;
+  }
+
+  .user-avatar-small {
+    height: 4rem;
+    width: 4rem;
+  }
+  .nav-item {
+    width: 80px;
+  }
+  .nav-icon {
+    font-size: 20px;
   }
 
   .search-layout-container {
@@ -405,6 +426,7 @@ body {
 
   .search-subbar-container {
     padding: 0 16px;
+    margin-top: 0.9rem;
   }
 
   .search-sidebar {
@@ -414,6 +436,10 @@ body {
     height: 100vh;
     top: 0;
     box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+  }
+
+  .search-bar-inner {
+    margin-top: 7px;
   }
 
   .search-main-content {

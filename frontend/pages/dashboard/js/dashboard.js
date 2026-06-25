@@ -30,7 +30,9 @@ function renderRecentAlbums(albums) {
     return;
   }
 
-  albums.forEach((album) => {
+  const albumsToDisplay = albums.slice(0, 4);
+
+  albumsToDisplay.forEach((album) => {
     const albumCard = document.createElement("div");
     albumCard.className = "dashboard-album-card";
 

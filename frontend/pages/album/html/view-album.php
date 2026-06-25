@@ -76,9 +76,8 @@ $canComment = $isOwner || in_array($contributorRight, ['Peut modifier', 'Peut co
             <a href="../../search/html/search.php" class="nav-item" title="Recherche"><i
                     class="fa-solid fa-magnifying-glass nav-icon"></i></a>
             <a href="../../invitation/html/invitation.php" class="nav-item" title="Invitations"><i
-                    class="fa-solid fa-user-group nav-icon"></i></a>
-            <button type="button" class="nav-item btn-notif" title="Notifications"><i
-                    class="fa-solid fa-bell nav-icon"></i></button>
+                    class="fa-solid fa-user-group nav-icon"></i>
+            </a>
         </nav>
         <div class="header-right">
             <a href="../../profile/html/profile-user.php" class="header-avatar-link">
