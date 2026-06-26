@@ -1764,10 +1764,9 @@
 }
 
 @media (max-width: 600px) {
-  /* 1. Harmonisation et alignement du Main Header */
   .main-header {
     border-bottom: 2px solid #1a1a1a;
-    height: 70px; /* Hauteur fixe standardisée sur tout le site */
+    height: 70px;
     justify-content: space-between;
     padding: 0 16px;
     box-sizing: border-box;
@@ -1775,13 +1774,13 @@
 
   .header-center-nav {
     gap: 16px;
-    position: static; /* Supprime le positionnement absolu pour laisser le flex aligner */
+    position: static;
     transform: none;
     left: auto;
   }
 
   .header-logo {
-    display: none; /* Masque le logo sur mobile comme sur le reste du site */
+    display: none;
   }
 
   .user-avatar-small {
@@ -1798,10 +1797,9 @@
     font-size: 18px;
   }
 
-  /* 2. Ajustements du Layout des pages d'albums pour coller au header de 70px */
   .album-page-layout {
     padding: 16px;
-    margin-top: 80px; /* Évite les chevauchements */
+    margin-top: 80px;
     box-sizing: border-box;
   }
 
@@ -1811,7 +1809,7 @@
   }
 
   .album-banner-hero {
-    height: 180px; /* Réduction de la bannière sur mobile pour un meilleur confort visuel */
+    height: 180px;
     margin-top: 70px;
   }
 
@@ -1833,14 +1831,12 @@
     justify-content: flex-start;
   }
 
-  /* Ajustement de la grille des photos et albums sur mobile */
   .albums-grid,
   #album-photos-grid {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important;
     gap: 12px !important;
   }
 
-  /* Rendre la modale de photo plein écran sur mobile */
   .photo-modal-content {
     flex-direction: column;
     height: 100%;
