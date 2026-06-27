@@ -30,7 +30,7 @@ session_start();
                 <h2>Bienvenue !</h2>
                 <p class="subtitle">Connectez-vous pour retrouver tous vos albums.</p>
 
-                <form action="../../../../backend/login_action.php" method="POST" novalidate>
+                <form id="form-login" action="../../../../backend/login_action.php" method="POST" novalidate>
                     <div class="input-group">
                         <label for="email">E-mail ou Pseudonyme</label>
                         <input type="text" id="email" name="identifier" placeholder="E-mail ou pseudo" required />

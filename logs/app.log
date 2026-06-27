@@ -152,3 +152,81 @@
 2026-06-26 19:49:17 | USER_ID=9 | ACTION=user_follow | DETAILS=target_user_id=6
 2026-06-27 14:14:48 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
 2026-06-27 14:14:52 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-27 15:39:53 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-27 15:39:58 | USER_ID=1 | ACTION=photo_like | DETAILS=photo_id=53
+2026-06-27 15:40:05 | USER_ID=1 | ACTION=comment_create | DETAILS=photo_id=54; length=10
+2026-06-27 15:40:09 | USER_ID=1 | ACTION=comment_delete | DETAILS=comment_id=46
+2026-06-27 15:40:29 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=22; visibility=restreint
+2026-06-27 15:40:52 | USER_ID=1 | ACTION=photo_unlike | DETAILS=photo_id=53
+2026-06-27 15:40:54 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=22; visibility=restreint
+2026-06-27 15:42:05 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-27 15:43:35 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-27 16:10:56 | USER_ID=1 | ACTION=user_logout | DETAILS=successful_logout=1
+2026-06-27 16:22:52 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-27 16:23:31 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=22; visibility=restreint
+2026-06-27 16:23:45 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=22; visibility=restreint
+2026-06-27 16:25:10 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-27 16:26:43 | USER_ID=1 | ACTION=user_logout | DETAILS=successful_logout=1
+2026-06-27 16:29:59 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-27 17:27:06 | USER_ID=1 | ACTION=user_logout | DETAILS=successful_logout=1
+2026-06-27 17:38:21 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-27 17:43:10 | USER_ID=1 | ACTION=user_logout | DETAILS=successful_logout=1
+2026-06-27 17:54:11 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-27 17:54:47 | USER_ID=1 | ACTION=user_logout | DETAILS=successful_logout=1
+2026-06-27 19:35:44 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-27 19:35:51 | USER_ID=1 | ACTION=user_logout | DETAILS=successful_logout=1
+2026-06-27 19:37:17 | USER_ID=13 | ACTION=user_register | DETAILS=username=Final; email=final@gmail.com
+2026-06-27 19:38:23 | USER_ID=13 | ACTION=album_create | DETAILS=album_id=36; title=test final
+2026-06-27 19:39:13 | USER_ID=13 | ACTION=profile_banner_upload | DETAILS=banner_url=frontend/uploads/banners/banner_13_1782589152.jpg
+2026-06-27 19:39:13 | USER_ID=13 | ACTION=profile_update | DETAILS=bio=1; avatar_updated=0; banner_updated=1
+2026-06-27 19:39:25 | USER_ID=13 | ACTION=album_view | DETAILS=album_id=36; visibility=privé
+2026-06-27 19:39:27 | USER_ID=13 | ACTION=photo_like | DETAILS=photo_id=66
+2026-06-27 19:39:30 | USER_ID=13 | ACTION=photo_like | DETAILS=photo_id=65
+2026-06-27 19:39:31 | USER_ID=13 | ACTION=photo_like | DETAILS=photo_id=63
+2026-06-27 19:39:33 | USER_ID=13 | ACTION=photo_like | DETAILS=photo_id=64
+2026-06-27 19:39:41 | USER_ID=13 | ACTION=album_view | DETAILS=album_id=36; visibility=privé
+2026-06-27 19:40:15 | USER_ID=13 | ACTION=user_follow | DETAILS=target_user_id=1
+2026-06-27 19:40:18 | USER_ID=13 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-27 19:40:27 | USER_ID=13 | ACTION=comment_create | DETAILS=photo_id=53; length=3
+2026-06-27 19:40:34 | USER_ID=13 | ACTION=photo_like | DETAILS=photo_id=54
+2026-06-27 19:40:36 | USER_ID=13 | ACTION=photo_like | DETAILS=photo_id=53
+2026-06-27 19:40:59 | USER_ID=13 | ACTION=album_view | DETAILS=album_id=36; visibility=privé
+2026-06-27 19:41:07 | USER_ID=13 | ACTION=album_update | DETAILS=album_id=36; title=test final; visibility=public; description_length=7
+2026-06-27 19:41:10 | USER_ID=13 | ACTION=album_view | DETAILS=album_id=36; visibility=public
+2026-06-27 19:41:24 | USER_ID=13 | ACTION=album_update | DETAILS=album_id=36; title=test final; visibility=restreint; description_length=7
+2026-06-27 19:41:35 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-27 19:41:43 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=36; visibility=restreint
+2026-06-27 19:41:51 | USER_ID=1 | ACTION=photo_like | DETAILS=photo_id=66
+2026-06-27 19:41:52 | USER_ID=1 | ACTION=photo_like | DETAILS=photo_id=65
+2026-06-27 19:41:53 | USER_ID=1 | ACTION=photo_like | DETAILS=photo_id=63
+2026-06-27 19:41:55 | USER_ID=1 | ACTION=photo_like | DETAILS=photo_id=64
+2026-06-27 19:42:20 | USER_ID=13 | ACTION=album_view | DETAILS=album_id=36; visibility=restreint
+2026-06-27 19:42:25 | USER_ID=13 | ACTION=album_update | DETAILS=album_id=36; title=test final; visibility=public; description_length=7
+2026-06-27 19:42:54 | USER_ID=13 | ACTION=album_view | DETAILS=album_id=36; visibility=public
+2026-06-27 19:43:45 | USER_ID=13 | ACTION=photo_upload | DETAILS=album_id=36; count=3
+2026-06-27 19:43:45 | USER_ID=13 | ACTION=album_view | DETAILS=album_id=36; visibility=public
+2026-06-27 19:43:53 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=36; visibility=public
+2026-06-27 19:43:58 | USER_ID=13 | ACTION=photo_delete | DETAILS=photo_id=67
+2026-06-27 19:44:01 | USER_ID=13 | ACTION=photo_delete | DETAILS=photo_id=68
+2026-06-27 19:44:03 | USER_ID=13 | ACTION=photo_delete | DETAILS=photo_id=69
+2026-06-27 19:44:09 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=36; visibility=public
+2026-06-27 19:44:18 | USER_ID=13 | ACTION=album_update | DETAILS=album_id=36; title=test final; visibility=privé; description_length=7
+2026-06-27 19:44:41 | USER_ID=13 | ACTION=album_delete | DETAILS=album_id=36
+2026-06-27 19:44:48 | USER_ID=13 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-27 19:45:46 | USER_ID=13 | ACTION=profile_identifiers_update | DETAILS=username_updated=1; email_updated=1
+2026-06-27 19:46:59 | USER_ID=13 | ACTION=profile_password_update | DETAILS=password_changed=1
+2026-06-27 20:22:09 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-27 20:22:30 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-27 20:22:48 | USER_ID=1 | ACTION=photo_like | DETAILS=photo_id=53
+2026-06-27 20:23:48 | USER_ID=1 | ACTION=album_update | DETAILS=album_id=31; title=Travis Scott; visibility=restreint; description_length=5
+2026-06-27 20:24:27 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=22; visibility=restreint
+2026-06-27 20:25:00 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=21; visibility=public
+2026-06-27 20:25:17 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=restreint
+2026-06-27 20:25:22 | USER_ID=1 | ACTION=photo_unlike | DETAILS=photo_id=53
+2026-06-27 20:27:05 | USER_ID=1 | ACTION=profile_update | DETAILS=bio=1; avatar_updated=0; banner_updated=0
+2026-06-27 20:28:02 | USER_ID=1 | ACTION=user_logout | DETAILS=successful_logout=1
+2026-06-27 20:28:14 | USER_ID=9 | ACTION=user_login | DETAILS=identifier=marine
+2026-06-27 20:28:37 | USER_ID=9 | ACTION=profile_identifiers_update | DETAILS=username_updated=1
+2026-06-27 20:29:19 | USER_ID=9 | ACTION=profile_identifiers_update | DETAILS=username_updated=1
+2026-06-27 20:36:17 | USER_ID=9 | ACTION=album_view | DETAILS=album_id=35; visibility=privé
+2026-06-27 20:36:22 | USER_ID=9 | ACTION=album_view | DETAILS=album_id=30; visibility=privé

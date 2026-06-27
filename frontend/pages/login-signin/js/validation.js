@@ -29,7 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   toggleButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
-      const input = btn.previousElementSibling;
+      const wrapper = btn.parentElement;
+      const input = wrapper ? wrapper.querySelector("input") : null;
+
       if (input && (input.type === "password" || input.type === "text")) {
         input.type = input.type === "password" ? "text" : "password";
       }
