@@ -74,12 +74,6 @@ fetch("/backend/handle_comments_action.php", {
   });
 ```
 
-### Best Practices
-
-- Always check `response.ok` and the `success` field in the JSON response.
-- Handle network errors and display user-friendly messages.
-- For file uploads (images), use `FormData` and do not manually set the `Content-Type` header.
-
 ## Database
 
 The complete schema is available in `database/schema.sql`.
@@ -94,6 +88,29 @@ Main tables include:
 - `favorites`
 - `follows`
 - `tags`
+
+## For the SEO system (tags)
+
+Tags must be added manually to the database like this :
+
+```SQL
+INSERT INTO `tags` (`id`, `name`) VALUES
+(2, 'Amis'),
+(8, 'Animaux'),
+(3, 'Couple'),
+(1, 'Famille'),
+(11, 'Montagne'),
+(12, 'Musées & Châteaux'),
+(6, 'Nature'),
+(13, 'Parc d\'attractions'),
+(7, 'Paysages'),
+(10, 'Plage & Mer'),
+(15, 'Soirées & Événements'),
+(5, 'Sorties'),
+(9, 'Ville'),
+(14, 'Voitures & Véhicules'),
+(4, 'Voyage');
+```
 
 ## Authentication and Session Management
 

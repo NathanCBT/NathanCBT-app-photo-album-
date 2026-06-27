@@ -114,3 +114,41 @@
 2026-06-26 14:36:58 | USER_ID=9 | ACTION=album_view | DETAILS=album_id=31; visibility=public
 2026-06-26 14:37:03 | USER_ID=9 | ACTION=comment_create | DETAILS=photo_id=53; length=4
 2026-06-26 14:37:10 | USER_ID=9 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-26 19:37:30 | USER_ID=9 | ACTION=user_login | DETAILS=identifier=marine
+2026-06-26 19:37:38 | USER_ID=9 | ACTION=album_view | DETAILS=album_id=30; visibility=privé
+2026-06-26 19:41:23 | USER_ID=9 | ACTION=album_update | DETAILS=album_id=30; title=Arnold Böcklin; visibility=privé; description_length=19
+2026-06-26 19:41:37 | USER_ID=9 | ACTION=album_view | DETAILS=album_id=30; visibility=privé
+2026-06-26 19:41:53 | USER_ID=9 | ACTION=profile_avatar_upload | DETAILS=avatar_url=frontend/uploads/avatars/avatar_9_1782502913.jpg
+2026-06-26 19:41:53 | USER_ID=9 | ACTION=profile_update | DETAILS=bio=1; avatar_updated=1; banner_updated=0
+2026-06-26 19:42:07 | USER_ID=9 | ACTION=profile_avatar_upload | DETAILS=avatar_url=frontend/uploads/avatars/avatar_9_1782502927.jpg
+2026-06-26 19:42:07 | USER_ID=9 | ACTION=profile_banner_upload | DETAILS=banner_url=frontend/uploads/banners/banner_9_1782502927.jpg
+2026-06-26 19:42:07 | USER_ID=9 | ACTION=profile_update | DETAILS=bio=1; avatar_updated=1; banner_updated=1
+2026-06-26 19:42:36 | USER_ID=9 | ACTION=profile_avatar_upload | DETAILS=avatar_url=frontend/uploads/avatars/avatar_9_1782502956.jpg
+2026-06-26 19:42:36 | USER_ID=9 | ACTION=profile_banner_upload | DETAILS=banner_url=frontend/uploads/banners/banner_9_1782502956.jpg
+2026-06-26 19:42:36 | USER_ID=9 | ACTION=profile_update | DETAILS=bio=1; avatar_updated=1; banner_updated=1
+2026-06-26 19:43:30 | USER_ID=9 | ACTION=album_view | DETAILS=album_id=33; visibility=public
+2026-06-26 19:43:34 | USER_ID=9 | ACTION=photo_delete | DETAILS=photo_id=56
+2026-06-26 19:43:37 | USER_ID=9 | ACTION=album_view | DETAILS=album_id=33; visibility=public
+2026-06-26 19:43:41 | USER_ID=9 | ACTION=album_delete | DETAILS=album_id=33
+2026-06-26 19:43:55 | USER_ID=9 | ACTION=album_view | DETAILS=album_id=30; visibility=privé
+2026-06-26 19:47:04 | USER_ID=9 | ACTION=album_create | DETAILS=album_id=35; title=Porsche
+2026-06-26 19:47:28 | USER_ID=9 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-26 19:47:31 | USER_ID=9 | ACTION=photo_like | DETAILS=photo_id=53
+2026-06-26 19:47:34 | USER_ID=9 | ACTION=photo_like | DETAILS=photo_id=54
+2026-06-26 19:47:45 | USER_ID=9 | ACTION=album_view | DETAILS=album_id=31; visibility=public
+2026-06-26 19:47:48 | USER_ID=9 | ACTION=album_view | DETAILS=album_id=3; visibility=public
+2026-06-26 19:47:50 | USER_ID=9 | ACTION=photo_like | DETAILS=photo_id=3
+2026-06-26 19:48:04 | USER_ID=9 | ACTION=photo_unlike | DETAILS=photo_id=3
+2026-06-26 19:48:05 | USER_ID=9 | ACTION=photo_unlike | DETAILS=photo_id=53
+2026-06-26 19:48:06 | USER_ID=9 | ACTION=photo_unlike | DETAILS=photo_id=54
+2026-06-26 19:48:10 | USER_ID=9 | ACTION=album_view | DETAILS=album_id=35; visibility=privé
+2026-06-26 19:48:12 | USER_ID=9 | ACTION=photo_like | DETAILS=photo_id=61
+2026-06-26 19:48:14 | USER_ID=9 | ACTION=photo_like | DETAILS=photo_id=62
+2026-06-26 19:48:16 | USER_ID=9 | ACTION=photo_like | DETAILS=photo_id=60
+2026-06-26 19:48:21 | USER_ID=9 | ACTION=photo_delete | DETAILS=photo_id=60
+2026-06-26 19:48:23 | USER_ID=9 | ACTION=photo_delete | DETAILS=photo_id=62
+2026-06-26 19:48:28 | USER_ID=9 | ACTION=album_view | DETAILS=album_id=35; visibility=privé
+2026-06-26 19:48:46 | USER_ID=9 | ACTION=album_view | DETAILS=album_id=21; visibility=public
+2026-06-26 19:49:17 | USER_ID=9 | ACTION=user_follow | DETAILS=target_user_id=6
+2026-06-27 14:14:48 | USER_ID=1 | ACTION=user_login | DETAILS=identifier=nth
+2026-06-27 14:14:52 | USER_ID=1 | ACTION=album_view | DETAILS=album_id=31; visibility=public
